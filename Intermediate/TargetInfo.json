@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "TetriTest",
+			"Path": "E:\\CPP\\UnrealProjects\\TetriTest\\Source\\TetriTest.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "TetriTestEditor",
+			"Path": "E:\\CPP\\UnrealProjects\\TetriTest\\Source\\TetriTestEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

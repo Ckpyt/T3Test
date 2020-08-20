@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\TetriTest.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{135878F1-34BC-43D0-82BE-3AE3CBB53280}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\TetriTest.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\TetriTestEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{8A51FBD7-148D-481E-BD53-A5E10BE6773E}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\TetriTest">
+      <UniqueIdentifier>{2C07349F-BC07-4154-8DE4-75BCCCF9746B}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\TetriTest\TetriTest.Build.cs">
+      <Filter>Source\TetriTest</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\TetriTest\TetriTest.cpp">
+      <Filter>Source\TetriTest</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\TetriTest\TetriTest.h">
+      <Filter>Source\TetriTest</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\TetriTest\TetriTestCharacter.cpp">
+      <Filter>Source\TetriTest</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\TetriTest\TetriTestCharacter.h">
+      <Filter>Source\TetriTest</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\TetriTest\TetriTestGameMode.cpp">
+      <Filter>Source\TetriTest</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\TetriTest\TetriTestGameMode.h">
+      <Filter>Source\TetriTest</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\TetriTest\TetriTestHUD.cpp">
+      <Filter>Source\TetriTest</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\TetriTest\TetriTestHUD.h">
+      <Filter>Source\TetriTest</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\TetriTest\TetriTestProjectile.cpp">
+      <Filter>Source\TetriTest</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\TetriTest\TetriTestProjectile.h">
+      <Filter>Source\TetriTest</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

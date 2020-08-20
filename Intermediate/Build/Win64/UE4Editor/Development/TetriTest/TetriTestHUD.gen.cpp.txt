@@ -1,0 +1,10 @@
+E:\CPP\UnrealProjects\TetriTest\Intermediate\Build\Win64\UE4Editor\Development\TetriTest\Definitions.TetriTest.h
+E:\UE_4.25\Engine\Source\Runtime\CoreUObject\Public\UObject/GeneratedCppIncludes.h
+E:\UE_4.25\Engine\Source\Runtime\CoreUObject\Public\UObject/MetaData.h
+E:\CPP\UnrealProjects\TetriTest\Source\TetriTest/TetriTestHUD.h
+E:\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/HUD.h
+E:\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/HUDHitBox.h
+E:\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/DebugTextInfo.h
+E:\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\DebugTextInfo.generated.h
+E:\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\HUD.generated.h
+E:\CPP\UnrealProjects\TetriTest\Intermediate\Build\Win64\UE4Editor\Inc\TetriTest\TetriTestHUD.generated.h
