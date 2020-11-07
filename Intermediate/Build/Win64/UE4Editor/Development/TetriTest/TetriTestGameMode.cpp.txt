@@ -4,14 +4,7 @@ E:\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/GameModeBase.h
 E:\UE_4.25\Engine\Source\Runtime\Engine\Classes\Engine/ServerStatReplicator.h
 E:\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\ServerStatReplicator.generated.h
 E:\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\GameModeBase.generated.h
-E:\CPP\UnrealProjects\TetriTest\Intermediate\Build\Win64\UE4Editor\Inc\TetriTest\TetriTestGameMode.generated.h
-E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\TetriTestHUD.h
-E:\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/HUD.h
-E:\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/HUDHitBox.h
-E:\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/DebugTextInfo.h
-E:\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\DebugTextInfo.generated.h
-E:\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\HUD.generated.h
-E:\CPP\UnrealProjects\TetriTest\Intermediate\Build\Win64\UE4Editor\Inc\TetriTest\TetriTestHUD.generated.h
+E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\CubeComponent.h
 E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\TetriTestCharacter.h
 E:\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/CharacterMovementComponent.h
 E:\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/RootMotionSource.h
@@ -33,4 +26,17 @@ E:\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\NetworkPredictio
 E:\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\CharacterMovementComponent.generated.h
 E:\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/Character.h
 E:\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\Character.generated.h
+E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\Tools.h
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\VC\Tools\MSVC\14.28.29331\INCLUDE\sstream
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\VC\Tools\MSVC\14.28.29331\INCLUDE\string
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\VC\Tools\MSVC\14.28.29331\INCLUDE\cctype
 E:\CPP\UnrealProjects\TetriTest\Intermediate\Build\Win64\UE4Editor\Inc\TetriTest\TetriTestCharacter.generated.h
+E:\CPP\UnrealProjects\TetriTest\Intermediate\Build\Win64\UE4Editor\Inc\TetriTest\CubeComponent.generated.h
+E:\CPP\UnrealProjects\TetriTest\Intermediate\Build\Win64\UE4Editor\Inc\TetriTest\TetriTestGameMode.generated.h
+E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\TetriTestHUD.h
+E:\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/HUD.h
+E:\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/HUDHitBox.h
+E:\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/DebugTextInfo.h
+E:\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\DebugTextInfo.generated.h
+E:\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\HUD.generated.h
+E:\CPP\UnrealProjects\TetriTest\Intermediate\Build\Win64\UE4Editor\Inc\TetriTest\TetriTestHUD.generated.h

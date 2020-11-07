@@ -21,6 +21,7 @@ void EmptyLinkFunctionForGeneratedCodeTetriTestProjectile() {}
 	COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FVector();
 	ENGINE_API UClass* Z_Construct_UClass_UPrimitiveComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_AActor_NoRegister();
+	ENGINE_API UClass* Z_Construct_UClass_ACharacter_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UProjectileMovementComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USphereComponent_NoRegister();
 // End Cross Module References
@@ -130,6 +131,14 @@ void EmptyLinkFunctionForGeneratedCodeTetriTestProjectile() {}
 		static const UE4CodeGen_Private::FMetaDataPairParam Class_MetaDataParams[];
 #endif
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_player_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_player;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_mode_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FUnsizedIntPropertyParams NewProp_mode;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ProjectileMovement_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_ProjectileMovement;
@@ -155,6 +164,23 @@ void EmptyLinkFunctionForGeneratedCodeTetriTestProjectile() {}
 	};
 #endif
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ATetriTestProjectile_Statics::NewProp_player_MetaData[] = {
+		{ "AllowPrivateAccess", "true" },
+		{ "Category", "Movement" },
+		{ "Comment", "//0 - push, 1 - rotate, 2 - destroy block, 3 - pull, 4 - rotate clockwise, 5 - destroy figure\n" },
+		{ "ModuleRelativePath", "TetriTestProjectile.h" },
+		{ "ToolTip", "0 - push, 1 - rotate, 2 - destroy block, 3 - pull, 4 - rotate clockwise, 5 - destroy figure" },
+	};
+#endif
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ATetriTestProjectile_Statics::NewProp_player = { "player", nullptr, (EPropertyFlags)0x0010000000020005, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ATetriTestProjectile, player), Z_Construct_UClass_ACharacter_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ATetriTestProjectile_Statics::NewProp_player_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ATetriTestProjectile_Statics::NewProp_player_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ATetriTestProjectile_Statics::NewProp_mode_MetaData[] = {
+		{ "Category", "TetriTestProjectile" },
+		{ "ModuleRelativePath", "TetriTestProjectile.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FUnsizedIntPropertyParams Z_Construct_UClass_ATetriTestProjectile_Statics::NewProp_mode = { "mode", nullptr, (EPropertyFlags)0x0010000000020005, UE4CodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ATetriTestProjectile, mode), METADATA_PARAMS(Z_Construct_UClass_ATetriTestProjectile_Statics::NewProp_mode_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ATetriTestProjectile_Statics::NewProp_mode_MetaData)) };
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ATetriTestProjectile_Statics::NewProp_ProjectileMovement_MetaData[] = {
 		{ "AllowPrivateAccess", "true" },
 		{ "Category", "Movement" },
@@ -176,6 +202,8 @@ void EmptyLinkFunctionForGeneratedCodeTetriTestProjectile() {}
 #endif
 	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ATetriTestProjectile_Statics::NewProp_CollisionComp = { "CollisionComp", nullptr, (EPropertyFlags)0x00400000000b0009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ATetriTestProjectile, CollisionComp), Z_Construct_UClass_USphereComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ATetriTestProjectile_Statics::NewProp_CollisionComp_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ATetriTestProjectile_Statics::NewProp_CollisionComp_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ATetriTestProjectile_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ATetriTestProjectile_Statics::NewProp_player,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ATetriTestProjectile_Statics::NewProp_mode,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ATetriTestProjectile_Statics::NewProp_ProjectileMovement,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ATetriTestProjectile_Statics::NewProp_CollisionComp,
 	};
@@ -206,7 +234,7 @@ void EmptyLinkFunctionForGeneratedCodeTetriTestProjectile() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(ATetriTestProjectile, 289270549);
+	IMPLEMENT_CLASS(ATetriTestProjectile, 549466234);
 	template<> TETRITEST_API UClass* StaticClass<ATetriTestProjectile>()
 	{
 		return ATetriTestProjectile::StaticClass();

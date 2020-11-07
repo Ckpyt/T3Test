@@ -3,8 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TetriTestCharacter.h"
 #include "GameFramework/Actor.h"
+#include "Tools.h"
 #include "TetriTestProjectile.generated.h"
+
 
 UCLASS(config=Game)
 class ATetriTestProjectile : public AActor
@@ -12,7 +15,8 @@ class ATetriTestProjectile : public AActor
 	GENERATED_BODY()
 
 	/** Sphere collision component */
-	UPROPERTY(VisibleDefaultsOnly, Category=Projectile)
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
 	class USphereComponent* CollisionComp;
 
 	/** Projectile movement component */
@@ -20,7 +24,16 @@ class ATetriTestProjectile : public AActor
 	class UProjectileMovementComponent* ProjectileMovement;
 
 public:
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	int mode = 0; //0 - push, 1 - rotate, 2 - destroy block, 3 - pull, 4 - rotate clockwise, 5 - destroy figure
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	ACharacter* player;
+
 	ATetriTestProjectile();
+	/** used for change a material  */
+	void Init(int mode);
 
 	/** called when projectile hits something */
 	UFUNCTION()

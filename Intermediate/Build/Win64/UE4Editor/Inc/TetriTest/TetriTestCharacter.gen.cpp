@@ -13,11 +13,10 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeTetriTestCharacter() {}
 // Cross Module References
-	TETRITEST_API UEnum* Z_Construct_UEnum_TetriTest_mode();
-	UPackage* Z_Construct_UPackage__Script_TetriTest();
 	TETRITEST_API UClass* Z_Construct_UClass_ATetriTestCharacter_NoRegister();
 	TETRITEST_API UClass* Z_Construct_UClass_ATetriTestCharacter();
 	ENGINE_API UClass* Z_Construct_UClass_ACharacter();
+	UPackage* Z_Construct_UPackage__Script_TetriTest();
 	ENGINE_API UClass* Z_Construct_UClass_UAnimMontage_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USoundBase_NoRegister();
 	COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
@@ -28,65 +27,95 @@ void EmptyLinkFunctionForGeneratedCodeTetriTestCharacter() {}
 	ENGINE_API UClass* Z_Construct_UClass_USceneComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USkeletalMeshComponent_NoRegister();
 // End Cross Module References
-	static UEnum* mode_StaticEnum()
+	DEFINE_FUNCTION(ATetriTestCharacter::execModeToInt)
 	{
-		static UEnum* Singleton = nullptr;
-		if (!Singleton)
-		{
-			Singleton = GetStaticEnum(Z_Construct_UEnum_TetriTest_mode, Z_Construct_UPackage__Script_TetriTest(), TEXT("mode"));
-		}
-		return Singleton;
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		*(int32*)Z_Param__Result=P_THIS->ModeToInt();
+		P_NATIVE_END;
 	}
-	template<> TETRITEST_API UEnum* StaticEnum<mode>()
+	DEFINE_FUNCTION(ATetriTestCharacter::execChoose)
 	{
-		return mode_StaticEnum();
-	}
-	static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_mode(mode_StaticEnum, TEXT("/Script/TetriTest"), TEXT("mode"), false, nullptr, nullptr);
-	uint32 Get_Z_Construct_UEnum_TetriTest_mode_Hash() { return 517976158U; }
-	UEnum* Z_Construct_UEnum_TetriTest_mode()
-	{
-#if WITH_HOT_RELOAD
-		UPackage* Outer = Z_Construct_UPackage__Script_TetriTest();
-		static UEnum* ReturnEnum = FindExistingEnumIfHotReloadOrDynamic(Outer, TEXT("mode"), 0, Get_Z_Construct_UEnum_TetriTest_mode_Hash(), false);
-#else
-		static UEnum* ReturnEnum = nullptr;
-#endif // WITH_HOT_RELOAD
-		if (!ReturnEnum)
-		{
-			static const UE4CodeGen_Private::FEnumeratorParam Enumerators[] = {
-				{ "mode::push", (int64)mode::push },
-				{ "mode::rotate", (int64)mode::rotate },
-				{ "mode::destroy", (int64)mode::destroy },
-			};
-#if WITH_METADATA
-			const UE4CodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
-				{ "destroy.DisplayName", "destroy" },
-				{ "destroy.Name", "mode::destroy" },
-				{ "ModuleRelativePath", "TetriTestCharacter.h" },
-				{ "push.DisplayName", "push" },
-				{ "push.Name", "mode::push" },
-				{ "rotate.DisplayName", "rotate" },
-				{ "rotate.Name", "mode::rotate" },
-			};
-#endif
-			static const UE4CodeGen_Private::FEnumParams EnumParams = {
-				(UObject*(*)())Z_Construct_UPackage__Script_TetriTest,
-				nullptr,
-				"mode",
-				"mode",
-				Enumerators,
-				UE_ARRAY_COUNT(Enumerators),
-				RF_Public|RF_Transient|RF_MarkAsNative,
-				UE4CodeGen_Private::EDynamicType::NotDynamic,
-				(uint8)UEnum::ECppForm::EnumClass,
-				METADATA_PARAMS(Enum_MetaDataParams, UE_ARRAY_COUNT(Enum_MetaDataParams))
-			};
-			UE4CodeGen_Private::ConstructUEnum(ReturnEnum, EnumParams);
-		}
-		return ReturnEnum;
+		P_GET_PROPERTY(FIntProperty,Z_Param_gunMode);
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->Choose(Z_Param_gunMode);
+		P_NATIVE_END;
 	}
 	void ATetriTestCharacter::StaticRegisterNativesATetriTestCharacter()
 	{
+		UClass* Class = ATetriTestCharacter::StaticClass();
+		static const FNameNativePtrPair Funcs[] = {
+			{ "Choose", &ATetriTestCharacter::execChoose },
+			{ "ModeToInt", &ATetriTestCharacter::execModeToInt },
+		};
+		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
+	}
+	struct Z_Construct_UFunction_ATetriTestCharacter_Choose_Statics
+	{
+		struct TetriTestCharacter_eventChoose_Parms
+		{
+			int32 gunMode;
+		};
+		static const UE4CodeGen_Private::FUnsizedIntPropertyParams NewProp_gunMode;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FUnsizedIntPropertyParams Z_Construct_UFunction_ATetriTestCharacter_Choose_Statics::NewProp_gunMode = { "gunMode", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(TetriTestCharacter_eventChoose_Parms, gunMode), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ATetriTestCharacter_Choose_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ATetriTestCharacter_Choose_Statics::NewProp_gunMode,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ATetriTestCharacter_Choose_Statics::Function_MetaDataParams[] = {
+		{ "Category", "SomeCategory" },
+		{ "ModuleRelativePath", "TetriTestCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ATetriTestCharacter_Choose_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ATetriTestCharacter, nullptr, "Choose", nullptr, nullptr, sizeof(TetriTestCharacter_eventChoose_Parms), Z_Construct_UFunction_ATetriTestCharacter_Choose_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ATetriTestCharacter_Choose_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04080401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ATetriTestCharacter_Choose_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ATetriTestCharacter_Choose_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_ATetriTestCharacter_Choose()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ATetriTestCharacter_Choose_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_ATetriTestCharacter_ModeToInt_Statics
+	{
+		struct TetriTestCharacter_eventModeToInt_Parms
+		{
+			int32 ReturnValue;
+		};
+		static const UE4CodeGen_Private::FUnsizedIntPropertyParams NewProp_ReturnValue;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FUnsizedIntPropertyParams Z_Construct_UFunction_ATetriTestCharacter_ModeToInt_Statics::NewProp_ReturnValue = { "ReturnValue", nullptr, (EPropertyFlags)0x0010000000000580, UE4CodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(TetriTestCharacter_eventModeToInt_Parms, ReturnValue), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ATetriTestCharacter_ModeToInt_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ATetriTestCharacter_ModeToInt_Statics::NewProp_ReturnValue,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ATetriTestCharacter_ModeToInt_Statics::Function_MetaDataParams[] = {
+		{ "Category", "SomeCategory" },
+		{ "ModuleRelativePath", "TetriTestCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ATetriTestCharacter_ModeToInt_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ATetriTestCharacter, nullptr, "ModeToInt", nullptr, nullptr, sizeof(TetriTestCharacter_eventModeToInt_Parms), Z_Construct_UFunction_ATetriTestCharacter_ModeToInt_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ATetriTestCharacter_ModeToInt_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04080401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ATetriTestCharacter_ModeToInt_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ATetriTestCharacter_ModeToInt_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_ATetriTestCharacter_ModeToInt()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ATetriTestCharacter_ModeToInt_Statics::FuncParams);
+		}
+		return ReturnFunction;
 	}
 	UClass* Z_Construct_UClass_ATetriTestCharacter_NoRegister()
 	{
@@ -95,6 +124,7 @@ void EmptyLinkFunctionForGeneratedCodeTetriTestCharacter() {}
 	struct Z_Construct_UClass_ATetriTestCharacter_Statics
 	{
 		static UObject* (*const DependentSingletons[])();
+		static const FClassFunctionLinkInfo FuncInfo[];
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Class_MetaDataParams[];
 #endif
@@ -159,11 +189,6 @@ void EmptyLinkFunctionForGeneratedCodeTetriTestCharacter() {}
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_Mesh1P_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_Mesh1P;
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_currentMode_MetaData[];
-#endif
-		static const UE4CodeGen_Private::FEnumPropertyParams NewProp_currentMode;
-		static const UE4CodeGen_Private::FUnsizedIntPropertyParams NewProp_currentMode_Underlying;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 		static const FCppClassTypeInfoStatic StaticCppClassTypeInfo;
 		static const UE4CodeGen_Private::FClassParams ClassParams;
@@ -171,6 +196,10 @@ void EmptyLinkFunctionForGeneratedCodeTetriTestCharacter() {}
 	UObject* (*const Z_Construct_UClass_ATetriTestCharacter_Statics::DependentSingletons[])() = {
 		(UObject* (*)())Z_Construct_UClass_ACharacter,
 		(UObject* (*)())Z_Construct_UPackage__Script_TetriTest,
+	};
+	const FClassFunctionLinkInfo Z_Construct_UClass_ATetriTestCharacter_Statics::FuncInfo[] = {
+		{ &Z_Construct_UFunction_ATetriTestCharacter_Choose, "Choose" }, // 2964377503
+		{ &Z_Construct_UFunction_ATetriTestCharacter_ModeToInt, "ModeToInt" }, // 1564703901
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ATetriTestCharacter_Statics::Class_MetaDataParams[] = {
@@ -330,15 +359,6 @@ void EmptyLinkFunctionForGeneratedCodeTetriTestCharacter() {}
 	};
 #endif
 	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ATetriTestCharacter_Statics::NewProp_Mesh1P = { "Mesh1P", nullptr, (EPropertyFlags)0x00400000000b0009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ATetriTestCharacter, Mesh1P), Z_Construct_UClass_USkeletalMeshComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ATetriTestCharacter_Statics::NewProp_Mesh1P_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ATetriTestCharacter_Statics::NewProp_Mesh1P_MetaData)) };
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ATetriTestCharacter_Statics::NewProp_currentMode_MetaData[] = {
-		{ "AllowPrivateAccess", "true" },
-		{ "Category", "mode" },
-		{ "ModuleRelativePath", "TetriTestCharacter.h" },
-	};
-#endif
-	const UE4CodeGen_Private::FEnumPropertyParams Z_Construct_UClass_ATetriTestCharacter_Statics::NewProp_currentMode = { "currentMode", nullptr, (EPropertyFlags)0x0040000000020005, UE4CodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ATetriTestCharacter, currentMode), Z_Construct_UEnum_TetriTest_mode, METADATA_PARAMS(Z_Construct_UClass_ATetriTestCharacter_Statics::NewProp_currentMode_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ATetriTestCharacter_Statics::NewProp_currentMode_MetaData)) };
-	const UE4CodeGen_Private::FUnsizedIntPropertyParams Z_Construct_UClass_ATetriTestCharacter_Statics::NewProp_currentMode_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UE4CodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, 1, 0, METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ATetriTestCharacter_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ATetriTestCharacter_Statics::NewProp_bUsingMotionControllers,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ATetriTestCharacter_Statics::NewProp_FireAnimation,
@@ -355,8 +375,6 @@ void EmptyLinkFunctionForGeneratedCodeTetriTestCharacter() {}
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ATetriTestCharacter_Statics::NewProp_FP_MuzzleLocation,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ATetriTestCharacter_Statics::NewProp_FP_Gun,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ATetriTestCharacter_Statics::NewProp_Mesh1P,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ATetriTestCharacter_Statics::NewProp_currentMode,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ATetriTestCharacter_Statics::NewProp_currentMode_Underlying,
 	};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_ATetriTestCharacter_Statics::StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<ATetriTestCharacter>::IsAbstract,
@@ -366,11 +384,11 @@ void EmptyLinkFunctionForGeneratedCodeTetriTestCharacter() {}
 		"Game",
 		&StaticCppClassTypeInfo,
 		DependentSingletons,
-		nullptr,
+		FuncInfo,
 		Z_Construct_UClass_ATetriTestCharacter_Statics::PropPointers,
 		nullptr,
 		UE_ARRAY_COUNT(DependentSingletons),
-		0,
+		UE_ARRAY_COUNT(FuncInfo),
 		UE_ARRAY_COUNT(Z_Construct_UClass_ATetriTestCharacter_Statics::PropPointers),
 		0,
 		0x008000A4u,
@@ -385,7 +403,7 @@ void EmptyLinkFunctionForGeneratedCodeTetriTestCharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(ATetriTestCharacter, 2597390625);
+	IMPLEMENT_CLASS(ATetriTestCharacter, 739757868);
 	template<> TETRITEST_API UClass* StaticClass<ATetriTestCharacter>()
 	{
 		return ATetriTestCharacter::StaticClass();

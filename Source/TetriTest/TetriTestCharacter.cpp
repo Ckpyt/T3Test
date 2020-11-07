@@ -12,22 +12,13 @@
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 
-#include <sstream>
-
 //...standard class body
 
-class LStream : public std::stringbuf {
-protected:
-	int sync() {
-		UE_LOG(LogTemp, Log, TEXT("%s"), *FString(str().c_str()));
-		str("");
-		return std::stringbuf::sync();
-	}
-};
 
-int ATetriTestCharacter::pushCharges = chargesMax;
-int ATetriTestCharacter::rotateCharges = chargesMax;
-int ATetriTestCharacter::destroyCharges = chargesMax;
+
+int ATetriTestCharacter::pushCharges = CHARGES_MAX;
+int ATetriTestCharacter::rotateCharges = CHARGES_MAX;
+int ATetriTestCharacter::destroyCharges = CHARGES_MAX;
 
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
@@ -37,9 +28,9 @@ DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
 ATetriTestCharacter::ATetriTestCharacter()
 {
-	pushCharges = chargesMax;
-	rotateCharges = chargesMax;
-	destroyCharges = chargesMax;
+	pushCharges = CHARGES_MAX;
+	rotateCharges = CHARGES_MAX;
+	destroyCharges = CHARGES_MAX;
 
 
 
@@ -106,6 +97,9 @@ ATetriTestCharacter::ATetriTestCharacter()
 
 	// Uncomment the following line to turn motion controllers on by default:
 	//bUsingMotionControllers = true;
+
+
+
 }
 
 void ATetriTestCharacter::BeginPlay()
@@ -150,7 +144,8 @@ void ATetriTestCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ATetriTestCharacter::StopJumping);
 
 	// Bind fire event
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ATetriTestCharacter::OnFire);
+	PlayerInputComponent->BindAction<FFireDelegate>("Fire", IE_Pressed, this, &ATetriTestCharacter::OnFire, 0);
+	PlayerInputComponent->BindAction<FFireDelegate>("Fire2", IE_Pressed, this, &ATetriTestCharacter::OnFire, 3);
 
 	// Enable touchscreen input
 	EnableTouchscreenMovement(PlayerInputComponent);
@@ -177,7 +172,9 @@ float GetTime() {
 	return timer;
 }
 
-
+void ATetriTestCharacter::AddPushCharges() { pushCharges += CHARGES_MAX; }
+void ATetriTestCharacter::AddRotateCharges() { rotateCharges += CHARGES_MAX; }
+void ATetriTestCharacter::AddDestroyCharges() { destroyCharges += CHARGES_MAX; }
 
 void ATetriTestCharacter::JetPack(float value) {
 
@@ -220,7 +217,11 @@ void ATetriTestCharacter::StopJumping() {
 	maxJumpVelocity = 0;
 }
 
-void ATetriTestCharacter::OnFire()
+int ATetriTestCharacter::ModeToInt() { return (int)currentMode; }
+
+
+
+void ATetriTestCharacter::OnFire(int fireStep)
 {
 	// turn on logging in std::cout
 	LStream Stream;
@@ -235,13 +236,11 @@ void ATetriTestCharacter::OnFire()
 	default: charges = &pushCharges; break;
 	}
 
-	std::cout <<"charges:"<< *charges << " "<< charges <<std::endl;
+	//std::cout <<"charges:"<< *charges << " "<< (int)currentMode <<std::endl;
 	if (*charges > 0) 
 		*charges = *charges - 1;
 	else
 		return;
-
-
 
 	// try and fire a projectile
 	if (ProjectileClass != NULL)
@@ -249,27 +248,43 @@ void ATetriTestCharacter::OnFire()
 		UWorld* const World = GetWorld();
 		if (World != NULL)
 		{
+			
+			FRotator SpawnRotation;
+			FVector SpawnLocation;
+			FActorSpawnParameters ActorSpawnParams;
+			
 			if (bUsingMotionControllers)
 			{
-				const FRotator SpawnRotation = VR_MuzzleLocation->GetComponentRotation();
-				const FVector SpawnLocation = VR_MuzzleLocation->GetComponentLocation();
-				World->SpawnActor<ATetriTestProjectile>(ProjectileClass, SpawnLocation, SpawnRotation);
+				SpawnRotation = VR_MuzzleLocation->GetComponentRotation();
+				SpawnLocation = VR_MuzzleLocation->GetComponentLocation();
 			}
 			else
 			{
-				const FRotator SpawnRotation = GetControlRotation();
+				SpawnRotation = GetControlRotation();
 				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-				const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
+				SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
 
 				//Set Spawn Collision Handling Override
-				FActorSpawnParameters ActorSpawnParams;
+				
 				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-
-				// spawn the projectile at the muzzle
-				World->SpawnActor<ATetriTestProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 			}
+			FTransform SpawnTransform(SpawnRotation, SpawnLocation);
+
+			auto MyDeferredActor = Cast<ATetriTestProjectile>(UGameplayStatics::BeginDeferredActorSpawnFromClass(this, ProjectileClass, SpawnTransform));
+			if (MyDeferredActor != nullptr)
+			{
+				MyDeferredActor->Init(fireStep + (int)currentMode);
+
+				UGameplayStatics::FinishSpawningActor(MyDeferredActor, SpawnTransform);
+			}
+
+
+			//World->SpawnActor<ATetriTestProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+			
 		}
 	}
+
+	
 
 	// try and play the sound if specified
 	if (FireSound != NULL)

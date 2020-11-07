@@ -13,6 +13,18 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+#Unreal Engine specific folders
+AssetRegistryCache/
+BuildRules/
+Build/
+Editor/
+Binaries/
+Win64/
+Crashes/
+Engine/
+Development/
+TetriTestEditor/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -87,6 +99,11 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
+
+*.bin
+*.dll
+*.dat
+
 
 # Chutzpah Test files
 _Chutzpah*

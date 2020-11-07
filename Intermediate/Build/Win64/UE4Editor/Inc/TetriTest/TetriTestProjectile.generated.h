@@ -17,18 +17,18 @@ struct FHitResult;
 #endif
 #define TETRITEST_TetriTestProjectile_generated_h
 
-#define TetriTest_Source_TetriTest_TetriTestProjectile_h_12_SPARSE_DATA
-#define TetriTest_Source_TetriTest_TetriTestProjectile_h_12_RPC_WRAPPERS \
+#define TetriTest_Source_TetriTest_TetriTestProjectile_h_15_SPARSE_DATA
+#define TetriTest_Source_TetriTest_TetriTestProjectile_h_15_RPC_WRAPPERS \
  \
 	DECLARE_FUNCTION(execOnHit);
 
 
-#define TetriTest_Source_TetriTest_TetriTestProjectile_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
+#define TetriTest_Source_TetriTest_TetriTestProjectile_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
  \
 	DECLARE_FUNCTION(execOnHit);
 
 
-#define TetriTest_Source_TetriTest_TetriTestProjectile_h_12_INCLASS_NO_PURE_DECLS \
+#define TetriTest_Source_TetriTest_TetriTestProjectile_h_15_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesATetriTestProjectile(); \
 	friend struct Z_Construct_UClass_ATetriTestProjectile_Statics; \
@@ -39,7 +39,7 @@ public: \
 
 
 
-#define TetriTest_Source_TetriTest_TetriTestProjectile_h_12_INCLASS \
+#define TetriTest_Source_TetriTest_TetriTestProjectile_h_15_INCLASS \
 private: \
 	static void StaticRegisterNativesATetriTestProjectile(); \
 	friend struct Z_Construct_UClass_ATetriTestProjectile_Statics; \
@@ -50,7 +50,7 @@ public: \
 
 
 
-#define TetriTest_Source_TetriTest_TetriTestProjectile_h_12_STANDARD_CONSTRUCTORS \
+#define TetriTest_Source_TetriTest_TetriTestProjectile_h_15_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API ATetriTestProjectile(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(ATetriTestProjectile) \
@@ -63,7 +63,7 @@ private: \
 public:
 
 
-#define TetriTest_Source_TetriTest_TetriTestProjectile_h_12_ENHANCED_CONSTRUCTORS \
+#define TetriTest_Source_TetriTest_TetriTestProjectile_h_15_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API ATetriTestProjectile(ATetriTestProjectile&&); \
@@ -74,32 +74,32 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(ATetriTestProjectile); \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(ATetriTestProjectile)
 
 
-#define TetriTest_Source_TetriTest_TetriTestProjectile_h_12_PRIVATE_PROPERTY_OFFSET \
+#define TetriTest_Source_TetriTest_TetriTestProjectile_h_15_PRIVATE_PROPERTY_OFFSET \
 	FORCEINLINE static uint32 __PPO__CollisionComp() { return STRUCT_OFFSET(ATetriTestProjectile, CollisionComp); } \
 	FORCEINLINE static uint32 __PPO__ProjectileMovement() { return STRUCT_OFFSET(ATetriTestProjectile, ProjectileMovement); }
 
 
-#define TetriTest_Source_TetriTest_TetriTestProjectile_h_9_PROLOG
-#define TetriTest_Source_TetriTest_TetriTestProjectile_h_12_GENERATED_BODY_LEGACY \
+#define TetriTest_Source_TetriTest_TetriTestProjectile_h_12_PROLOG
+#define TetriTest_Source_TetriTest_TetriTestProjectile_h_15_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	TetriTest_Source_TetriTest_TetriTestProjectile_h_12_PRIVATE_PROPERTY_OFFSET \
-	TetriTest_Source_TetriTest_TetriTestProjectile_h_12_SPARSE_DATA \
-	TetriTest_Source_TetriTest_TetriTestProjectile_h_12_RPC_WRAPPERS \
-	TetriTest_Source_TetriTest_TetriTestProjectile_h_12_INCLASS \
-	TetriTest_Source_TetriTest_TetriTestProjectile_h_12_STANDARD_CONSTRUCTORS \
+	TetriTest_Source_TetriTest_TetriTestProjectile_h_15_PRIVATE_PROPERTY_OFFSET \
+	TetriTest_Source_TetriTest_TetriTestProjectile_h_15_SPARSE_DATA \
+	TetriTest_Source_TetriTest_TetriTestProjectile_h_15_RPC_WRAPPERS \
+	TetriTest_Source_TetriTest_TetriTestProjectile_h_15_INCLASS \
+	TetriTest_Source_TetriTest_TetriTestProjectile_h_15_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define TetriTest_Source_TetriTest_TetriTestProjectile_h_12_GENERATED_BODY \
+#define TetriTest_Source_TetriTest_TetriTestProjectile_h_15_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	TetriTest_Source_TetriTest_TetriTestProjectile_h_12_PRIVATE_PROPERTY_OFFSET \
-	TetriTest_Source_TetriTest_TetriTestProjectile_h_12_SPARSE_DATA \
-	TetriTest_Source_TetriTest_TetriTestProjectile_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
-	TetriTest_Source_TetriTest_TetriTestProjectile_h_12_INCLASS_NO_PURE_DECLS \
-	TetriTest_Source_TetriTest_TetriTestProjectile_h_12_ENHANCED_CONSTRUCTORS \
+	TetriTest_Source_TetriTest_TetriTestProjectile_h_15_PRIVATE_PROPERTY_OFFSET \
+	TetriTest_Source_TetriTest_TetriTestProjectile_h_15_SPARSE_DATA \
+	TetriTest_Source_TetriTest_TetriTestProjectile_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
+	TetriTest_Source_TetriTest_TetriTestProjectile_h_15_INCLASS_NO_PURE_DECLS \
+	TetriTest_Source_TetriTest_TetriTestProjectile_h_15_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

@@ -5,28 +5,22 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Tools.h"
 #include "TetriTestCharacter.generated.h"
 
-class UInputComponent;
 
-UENUM()
-enum struct mode {
-	push UMETA(DisplayName = "push"),
-	rotate UMETA(DisplayName = "rotate"),
-	destroy UMETA(DisplayName = "destroy")
-};
+class UInputComponent;
 
 UCLASS(config=Game)
 class ATetriTestCharacter : public ACharacter
 {
 
 
-#define chargesMax 10
+#define CHARGES_MAX 10
 
 	GENERATED_BODY()
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = mode, meta = (AllowPrivateAccess = "true"))
-	TEnumAsByte<mode> currentMode;
+	mode currentMode;
 
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
 	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
@@ -104,11 +98,16 @@ public:
 	static int destroyCharges;
 
 	DECLARE_DELEGATE_OneParam(FChooseDelegate, int32);
+	DECLARE_DELEGATE_OneParam(FFireDelegate, int32);
+
+	static void AddPushCharges();
+	static void AddRotateCharges();
+	static void AddDestroyCharges();
 
 protected:
 	
 	/** Fires a projectile. */
-	void OnFire();
+	void OnFire(int modeStep = 0);
 
 	/** Resets HMD orientation and position in VR. */
 	void OnResetVR();
@@ -116,12 +115,13 @@ protected:
 	/** Handles moving forward/backward */
 	void MoveForward(float Val);
 
-	/** Handles stafing movement, left and right */
+	/** Handles strafing movement, left and right */
 	void MoveRight(float Val);
 
 	/** Handles jump movement */
 	void Jump();
 
+	UFUNCTION(BlueprintCallable, Category = SomeCategory)
 	void Choose(int gunMode);
 
 	/** Handles stop jumping */
@@ -154,6 +154,9 @@ protected:
 	void TouchUpdate(const ETouchIndex::Type FingerIndex, const FVector Location);
 	TouchData	TouchItem;
 	
+	UFUNCTION(BlueprintCallable, Category = SomeCategory)
+	int ModeToInt();
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;

@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\TetriTest.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{135878F1-34BC-43D0-82BE-3AE3CBB53280}</UniqueIdentifier>
+      <UniqueIdentifier>{019A3008-5317-4077-8097-1B090D0090C8}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\TetriTest.Target.cs">
       <Filter>Source</Filter>
@@ -11,8 +11,10 @@
     <None Include="..\..\Source\TetriTestEditor.Target.cs">
       <Filter>Source</Filter>
     </None>
+    <None Include="..\..\.gitattributes" />
+    <None Include="..\..\.gitignore" />
     <Filter Include="Config">
-      <UniqueIdentifier>{8A51FBD7-148D-481E-BD53-A5E10BE6773E}</UniqueIdentifier>
+      <UniqueIdentifier>{2C7211FE-39FD-4B00-8FE5-CAB979F591B5}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -30,8 +32,26 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\TetriTest">
-      <UniqueIdentifier>{2C07349F-BC07-4154-8DE4-75BCCCF9746B}</UniqueIdentifier>
+      <UniqueIdentifier>{74C4A28E-B15B-4259-A10C-793F7BC7133B}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\TetriTest\CubeActor.cpp">
+      <Filter>Source\TetriTest</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\TetriTest\CubeActor.h">
+      <Filter>Source\TetriTest</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\TetriTest\CubeComponent.cpp">
+      <Filter>Source\TetriTest</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\TetriTest\CubeComponent.h">
+      <Filter>Source\TetriTest</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\TetriTest\TestActorComponent.cpp">
+      <Filter>Source\TetriTest</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\TetriTest\TestActorComponent.h">
+      <Filter>Source\TetriTest</Filter>
+    </ClInclude>
     <None Include="..\..\Source\TetriTest\TetriTest.Build.cs">
       <Filter>Source\TetriTest</Filter>
     </None>
@@ -63,6 +83,18 @@
       <Filter>Source\TetriTest</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\TetriTest\TetriTestProjectile.h">
+      <Filter>Source\TetriTest</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\TetriTest\TetriTestStateBase.cpp">
+      <Filter>Source\TetriTest</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\TetriTest\TetriTestStateBase.h">
+      <Filter>Source\TetriTest</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\TetriTest\Tools.cpp">
+      <Filter>Source\TetriTest</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\TetriTest\Tools.h">
       <Filter>Source\TetriTest</Filter>
     </ClInclude>
   </ItemGroup>

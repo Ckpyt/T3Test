@@ -21,8 +21,8 @@ void EmptyLinkFunctionForGeneratedCodeTetriTest_init() {}
 				nullptr,
 				0,
 				PKG_CompiledIn | 0x00000000,
-				0xA61220D5,
-				0x8243BCC9,
+				0x01B5AAFC,
+				0x7F661378,
 				METADATA_PARAMS(nullptr, 0)
 			};
 			UE4CodeGen_Private::ConstructUPackage(ReturnPackage, PackageParams);
