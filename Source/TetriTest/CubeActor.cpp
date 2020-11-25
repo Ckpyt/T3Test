@@ -35,7 +35,7 @@ ACubeActor::ACubeActor()
 	if (material != nullptr) {
 		BoxComp->SetMaterial(0, material);
 	}
-
+	
 	//BoxComp->BodyInstance.SetCollisionProfileName("Projectile");
 	//BoxComp->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 	//BoxComp->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Default, 0.f));
@@ -44,10 +44,11 @@ ACubeActor::ACubeActor()
 	CubeComp = CreateDefaultSubobject<UCubeComponent>(TEXT("Cube"));
 	CubeComp->currentMode = type;
 
-	AddOwnedComponent(CubeComp);
+	AddOwnedComponent(CubeComp); 
 
 #define scale 250.f
 	BoxComp->SetRelativeScale3D(FVector(scale, scale, scale));
+
 }
 
 // Called when the game starts or when spawned
@@ -63,4 +64,3 @@ void ACubeActor::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-

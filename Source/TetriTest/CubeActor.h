@@ -7,16 +7,21 @@
 #include "Components/BoxComponent.h"
 #include "CubeActor.generated.h"
 
+
+
 UCLASS()
 class TETRITEST_API ACubeActor : public AActor
 {
 	GENERATED_BODY()
+
 public:	
 	UPROPERTY(VisibleDefaultsOnly)
 	class UStaticMeshComponent* BoxComp;
 	UPROPERTY(VisibleDefaultsOnly)
 	class UCubeComponent* CubeComp;
-
+	//whole figure owner
+	class Figure* owner;
+	
 	// Sets default values for this actor's properties
 	ACubeActor();
 
@@ -27,5 +32,4 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 };

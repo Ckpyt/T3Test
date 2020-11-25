@@ -1,11 +1,11 @@
 {
 	"TargetName": "TetriTestEditor",
 	"Platform": "Win64",
-	"Configuration": "Development",
+	"Configuration": "DebugGame",
 	"TargetType": "Editor",
 	"Architecture": "",
 	"Project": "../../TetriTest.uproject",
-	"Launch": "$(EngineDir)/Binaries/Win64/UE4Editor.exe",
+	"Launch": "$(EngineDir)/Binaries/Win64/UE4Editor-Win64-DebugGame.exe",
 	"Version": 
 	{
 		"MajorVersion": 4,
@@ -21,19 +21,19 @@
 	},
 	"BuildProducts": [
 		{
-			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor.exe",
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-Win64-DebugGame.exe",
 			"Type": "Executable"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor.pdb",
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-Win64-DebugGame.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-Cmd.exe",
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-Win64-DebugGame-Cmd.exe",
 			"Type": "Executable"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-Cmd.pdb",
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-Win64-DebugGame-Cmd.pdb",
 			"Type": "SymbolFile"
 		},
 		{
@@ -1421,11 +1421,11 @@
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-TetriTest.dll",
+			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-TetriTest-Win64-DebugGame.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-TetriTest.pdb",
+			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-TetriTest-Win64-DebugGame.pdb",
 			"Type": "SymbolFile"
 		},
 		{
@@ -4741,7 +4741,7 @@
 			"Type": "RequiredResource"
 		},
 		{
-			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor.modules",
+			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-Win64-DebugGame.modules",
 			"Type": "RequiredResource"
 		},
 		{

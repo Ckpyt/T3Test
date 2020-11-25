@@ -8,6 +8,10 @@
 #include "Tools.h"
 #include "CubeComponent.generated.h"
 
+#define _BLOCK_SIZE_ 1000.f
+
+class Figure;
+
 //cube component. Used for moving, rotation and delete cube
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class TETRITEST_API UCubeComponent : public UActorComponent
@@ -26,10 +30,13 @@ class TETRITEST_API UCubeComponent : public UActorComponent
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	class UProjectileMovementComponent* ProjectileMovement;
 
-	std::vector<UCubeComponent*> figure;
+	Figure* figure;
 	UCubeComponent* parent = nullptr;
+	//for rotation the figure, we need only 4 numbers for each axles: 0, 90, 180, 270
+	
 
 public:	
+	long id;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	int currentMode;
@@ -49,20 +56,14 @@ public:
 
 	void Init(mode curMode);
 
-	void AddChild(UCubeComponent* child);
-
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
-	static UCubeComponent* SpawnBlock(const int x, const int y, UCubeComponent* owner, UWorld* const World);
+	static UCubeComponent* SpawnBlock(const int x, const int y, Figure* owner, long id, UWorld* const World);
 
 private:
 	int CalcCrossedSide(FVector other);
 
-	void Push(int side, bool push = false);
-	void Pull(int side);
-	void Rotate(int side);
-	void CouterRotate(int side);
 	void DestroyFigure();
 	void Destroy();
 };

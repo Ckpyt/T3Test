@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\TetriTest.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{019A3008-5317-4077-8097-1B090D0090C8}</UniqueIdentifier>
+      <UniqueIdentifier>{29514B87-B2B9-4D00-98E5-7422BAE88083}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\TetriTest.Target.cs">
       <Filter>Source</Filter>
@@ -14,7 +14,7 @@
     <None Include="..\..\.gitattributes" />
     <None Include="..\..\.gitignore" />
     <Filter Include="Config">
-      <UniqueIdentifier>{2C7211FE-39FD-4B00-8FE5-CAB979F591B5}</UniqueIdentifier>
+      <UniqueIdentifier>{F47CD37D-8EA8-4779-8BAA-45B4092982F5}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -32,7 +32,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\TetriTest">
-      <UniqueIdentifier>{74C4A28E-B15B-4259-A10C-793F7BC7133B}</UniqueIdentifier>
+      <UniqueIdentifier>{C4185E33-2257-4C3B-8A25-3AE366C1DDF9}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\TetriTest\CubeActor.cpp">
       <Filter>Source\TetriTest</Filter>
@@ -44,6 +44,12 @@
       <Filter>Source\TetriTest</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\TetriTest\CubeComponent.h">
+      <Filter>Source\TetriTest</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\TetriTest\Figure.cpp">
+      <Filter>Source\TetriTest</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\TetriTest\Figure.h">
       <Filter>Source\TetriTest</Filter>
     </ClInclude>
     <ClCompile Include="..\..\Source\TetriTest\TestActorComponent.cpp">

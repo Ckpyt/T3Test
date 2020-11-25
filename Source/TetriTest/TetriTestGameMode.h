@@ -17,7 +17,7 @@ class ATetriTestGameMode : public AGameModeBase
 	GENERATED_BODY()
 
 	//the scene occupation by blocks;
-	UStaticMeshComponent* fullScene[SCENE_SIZE][SCENE_SIZE][SCENE_HEIGHT];
+	AActor* fullScene[SCENE_SIZE][SCENE_SIZE][SCENE_HEIGHT];
 
 	//should be only one component in the game
 	static ATetriTestGameMode* instance;
@@ -25,19 +25,28 @@ class ATetriTestGameMode : public AGameModeBase
 	//last block ID
 	long lastID = 0;
 
+	void BeginPlay() override;
+	void CalcXYZFromPos(const FVector pos, int& x, int& y, int& z);
 public:
 	ATetriTestGameMode();
 
-	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage);
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 
 	void ClearScene();
 	void DropFigure();
 
 static ATetriTestGameMode* GetGameMode();
 
+	//check a new location of the block: is it inside in the scene?
+	bool CheckMoveBlock(const FVector newPos, Figure* owner);
+	//check a new location of the figure: is it inside in the scene?
+	bool CheckMoveFigure(std::vector<FVector> &figure, Figure* owner);
 
-	bool CheckMoveBlock(FVector newPos);
-	bool CheckRotateFigure(std::vector<FVector> &figure);
+	//moving block in the game scene
+	void MoveBlockInScene(AActor* block, const FVector newPos);
+
+	//delete link into the block from scene
+	void ClearBlockLocation(AActor* block);
 
 	static long GetNextId();
 };

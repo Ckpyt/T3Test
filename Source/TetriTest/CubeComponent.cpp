@@ -7,9 +7,9 @@
 #include "Components/BoxComponent.h"
 #include "TetriTestProjectile.h"
 #include "TetriTestGameMode.h"
+#include "Figure.h"
 
-
-const float UCubeComponent::size = 1000.0f;
+const float UCubeComponent::size = _BLOCK_SIZE_;
 
 // Sets default values
 UCubeComponent::UCubeComponent()
@@ -104,8 +104,6 @@ int UCubeComponent::CalcCrossedSide(FVector other) {
 	return 0;
 }
 
-void UCubeComponent::AddChild(UCubeComponent* child) { figure.push_back(child); }
-
 void UCubeComponent::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 // 	LStream Stream;
@@ -122,11 +120,11 @@ void UCubeComponent::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 			int side = CalcCrossedSide(OtherActor->GetActorLocation());
 /*			std::cout << "Hit! " << side << std::endl;*/
 			switch (mode) {
-			case 0: Push(side); break;
-			case 3: Pull(side); break;
+			case 0: figure->Push(side); break;
+			case 3: figure->Pull(side); break;
 
-			case 1: Rotate(side); break;
-			case 4: CouterRotate(side); break;
+			case 1: figure->Rotate(side, this->GetOwner()->GetActorLocation()); break;
+			case 4: figure->CouterRotate(side, this->GetOwner()->GetActorLocation()); break;
 
 			case 2: Destroy(); break;
 			case 5: DestroyFigure(); break;
@@ -137,90 +135,37 @@ void UCubeComponent::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 
 void UCubeComponent::Init(mode curMode) {currentMode = (int)curMode;}
 
-void UCubeComponent::Push(int side, bool push) {
-// 	LStream Stream;
-// 	std::cout.rdbuf(&Stream);
-// 	std::cout << "Push" << side << std::endl;
-	if (!push) {
-		if (parent != nullptr)
-			return parent->Push(side);
-		//else
-			//for (auto cb : figure)
-				//cb->Push(side, true);
-	}
-	
-	auto pos = this->GetOwner()->GetActorLocation();
-
-	switch (side) {
-	case 1:
-	case -1: pos.X -= side * size; break;
-	case 2: pos.Y -= size; break;
-	case -2: pos.Y += size; break;
-	case 3: pos.Z -= size; break;
-	case -3: pos.Z += size; break;
-	default: break;
-	}
-	if(ATetriTestGameMode::GetGameMode()->CheckMoveBlock(pos))
-		this->GetOwner()->SetActorLocation(pos);
-}
-
-void UCubeComponent::Pull(int side) {
-	Push(-side);
-}
-
-void UCubeComponent::Rotate(int side) {
-	if (parent != nullptr)
-		return parent->Rotate(side);
-}
-
-
-void UCubeComponent::CouterRotate(int side) {
-	Rotate(-side);
-}
-
 void UCubeComponent::DestroyFigure() {
-
-	if (parent == nullptr || figure.size() > 1) {
-		for (auto var : figure)
-		{
-			if (var != nullptr && var != this)
-				var->GetOwner()->Destroy();
-		}
-		
-		GetOwner()->Destroy();
-	}
-	else {
-		parent->DestroyFigure();
-	}
+	figure->DestroyFigure();
 }
 
 void UCubeComponent::Destroy() {
 	//move figure holder to another block
-	if (parent == nullptr && figure.size() > 0) {
+	/*if (parent == nullptr && figure.size() > 0) {
 		auto newparent = figure[0];
 		newparent->parent = nullptr;
 		for (int i = 1; i < figure.size(); i++) {
 			newparent->figure.push_back(figure[i]);
 			figure[i]->parent = newparent;
 		}
-	}
+	}*/
 
 	switch (currentMode) {
 	case 0: ATetriTestCharacter::AddPushCharges(); break;
 	case 1: ATetriTestCharacter::AddRotateCharges(); break;
 	case 2: ATetriTestCharacter::AddDestroyCharges(); break;
 	}
-	GetOwner()->Destroy();
+	figure->DestroyBlock(id);
 }
 
-UCubeComponent* UCubeComponent::SpawnBlock(int x, int y, UCubeComponent* owner, UWorld* const World) {
-
+UCubeComponent* UCubeComponent::SpawnBlock(const int x, const int y, Figure* owner, long id, UWorld* const World) {
+	UCubeComponent* cube = nullptr;
 	static const TSubclassOf<class ACubeActor> ProjectileClass;
 	if (World != NULL)
 	{
 
 		FRotator SpawnRotation(0.f,0.f,0.f);
-		FVector SpawnLocation(((float)x - 1.5f) * 1000.f, ((float)y - 1.5f) * 1000.f, 19000.f);
+		FVector SpawnLocation(((float)x - 1.5f) * 1000.f, ((float)y - 1.5f) * 1000.f, 3500.f);
 		FActorSpawnParameters ActorSpawnParams;
 
 		//Set Spawn Collision Handling Override
@@ -229,18 +174,13 @@ UCubeComponent* UCubeComponent::SpawnBlock(int x, int y, UCubeComponent* owner, 
 		FTransform SpawnTransform(SpawnRotation, SpawnLocation);
 		ACubeActor* actor = World->SpawnActor<ACubeActor>(ACubeActor::StaticClass(), SpawnLocation, SpawnRotation, ActorSpawnParams); //mode and material in the constructor
 		if (actor != nullptr) {
-			UCubeComponent* cube = actor->CubeComp;
-			if (cube != nullptr) {
-				if (owner == nullptr) {
-					owner = cube;
-				}
-				else {
-					owner->figure.push_back(cube);
-					cube->parent = owner;
-				}
-			}
+			actor->owner = owner;
+			cube = actor->CubeComp;
+			cube->id = id;
+			cube->figure = owner;
+			owner->AddBlock(actor, id);
 		}
 	}
 
-	return owner;
+	return cube;
 }
