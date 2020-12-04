@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Figure.h"
+#include "CubeActor.h"
 #include <vector>
 #include "TetriTestGameMode.h"
 #include "CubeComponent.h"
@@ -13,11 +14,15 @@ Figure::Figure()
 
 Figure::~Figure()
 {
+	if(isItDeleted == false)
+		DestroyFigure();
 }
 
 void Figure::AddBlock(AActor* block, long id) {
 	blocks[id] = block;
 }
+
+bool Figure::IsItFalling() { return isItFalling; }
 
 void Figure::DestroyBlock(long id, bool destroing) {
 	AActor* block = blocks[id];
@@ -32,11 +37,20 @@ void Figure::DestroyFigure() {
 	for (auto block : blocks) {
 		DestroyBlock(block.first, true);
 	}
+	if (isItFalling) {
+		ATetriTestGameMode::GetGameMode()->ClearFallingFigure();
+		ATetriTestGameMode::GetGameMode()->DropFigure();
+	}
+	isItDeleted = true;
 	delete this;
 }
 
 void Figure::Pull(int side) {
 	Push(-side);
+}
+
+void Figure::Tick() {
+	
 }
 
 void Figure::Push(int side) {
@@ -56,18 +70,41 @@ void Figure::Push(int side) {
 	default: break;
 	}
 
+	bool falling = isItFalling;
+
 	for (auto blockPair : blocks)
 		figurePos.push_back(blockPair.second->GetActorLocation() + pos);
 
 	if (ATetriTestGameMode::GetGameMode()->CheckMoveFigure(figurePos, this))
 		for (auto blockPair : blocks) {
-			AActor* block = blockPair.second;
-			ATetriTestGameMode::GetGameMode()->MoveBlockInScene(block, block->GetActorLocation() + pos);
+			ACubeActor* block = (ACubeActor*)blockPair.second;
+			ATetriTestGameMode::GetGameMode()->MoveBlockInScene(block, block->GetActorLocation(), 
+				(falling ? block->GetActorLocation()  : ATetriTestGameMode::CorrectPosition(block->GetActorLocation()))
+				+ pos);
+			block->CubeComp->UpdateLocalPosition();
 		}
 	else {
-		if(side == 3)
+		if (side == 3) {
+			isItFalling = false;
 			ATetriTestGameMode::GetGameMode()->DropFigure();
+		}
 	}
+}
+
+void Figure::StopFalling() { 
+	ATetriTestGameMode* mode = ATetriTestGameMode::GetGameMode();
+	FVector pos;
+
+	for (auto block : blocks) {
+		FVector loc = ((ACubeActor*)block.second)->CubeComp->GetLocation();
+		mode->MoveBlockInScene(block.second, loc, ATetriTestGameMode::CorrectPosition(loc));
+		if (loc.Z > pos.Z)
+			pos = loc;
+	}
+
+	if (pos.Z + 1000.f <= _MAX_HEIGHT_) //is there some space for the next figure?
+		mode->DropFigure();
+	isItFalling = false; 
 }
 
 void Figure::RotateX(float mul, FVector& pos) {
@@ -110,7 +147,7 @@ void Figure::Rotate(int side, FVector blockPos) {
 	for (auto block : blocks) {
 		FVector blockPos = block.second->GetActorLocation() - pos; //the position, depended on the middle of the figure
 		switch (side) {
-		case 1: //x
+		case 1:   //x
 			RotateX(-1, blockPos);  
 			break;
 		case -1:  //-x
@@ -137,7 +174,9 @@ void Figure::Rotate(int side, FVector blockPos) {
 		auto blockIter = blocks.begin();
 
 		for (auto blockPos : figurePos) {
-			ATetriTestGameMode::GetGameMode()->MoveBlockInScene(blockIter->second, blockPos);
+			ACubeActor* block = (ACubeActor*)blockIter->second;
+			ATetriTestGameMode::GetGameMode()->MoveBlockInScene(block, block->GetActorLocation(), blockPos);
+			block->CubeComp->UpdateLocalPosition();
 			blockIter++;
 		}
 	}

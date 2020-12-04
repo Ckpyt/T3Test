@@ -15,6 +15,7 @@
 
 #define FIGURES 5 
 
+
 bool AllFigures[FIGURES][4][2] = {
 	{{1,1}, {1,1}, {}, {}},		//square
 	{{1}, {1,1}, {1}, {}},		//triangle .|.
@@ -77,15 +78,19 @@ void ATetriTestGameMode::ClearScene() {
 
 void ATetriTestGameMode::DropFigure() {
 	UCubeComponent* owner = nullptr;
-	Figure* fig = new Figure();
-	srand(time(NULL));
-	int figure = rand() % 5;
-	bool first = true;
-	for (int x = 0; x < 4; x++)
-		for (int y = 0; y < 2; y++)
-			if (AllFigures[figure][x][y]) {
-				UCubeComponent::SpawnBlock(x, y, fig, GetNextId(), GetWorld());
-			}
+	if (fallingFigure == nullptr || fallingFigure->IsItFalling() == false) {
+		Figure* fig = new Figure();
+		srand(time(NULL));
+		int figure = rand() % 5;
+		bool first = true;
+		for (int x = 0; x < 4; x++)
+			for (int y = 0; y < 2; y++)
+				if (AllFigures[figure][x][y]) {
+					UCubeComponent::SpawnBlock(x, y, fig, GetNextId(), GetWorld());
+				}
+
+		fallingFigure = fig;
+	}
 }
 
 ATetriTestGameMode* ATetriTestGameMode::GetGameMode() { return instance; }
@@ -97,10 +102,27 @@ void ATetriTestGameMode::ClearBlockLocation(AActor* block) {
 	fullScene[x][y][z] = nullptr;
 }
 
+void ATetriTestGameMode::ClearFallingFigure() { fallingFigure = nullptr; }
+
 void ATetriTestGameMode::CalcXYZFromPos(const FVector pos, int& x, int& y, int& z) {
 	x = (((pos.X - _BLOCK_SIZE_ / 2.f) / _BLOCK_SIZE_) + SCENE_SIZE / 2.f);
 	y = (((pos.Y - _BLOCK_SIZE_ / 2.f) / _BLOCK_SIZE_) + SCENE_SIZE / 2.f);
 	z = ((pos.Z - _BLOCK_SIZE_ / 2.f) / _BLOCK_SIZE_);
+	z -= pos.Z < 500 ? 1 : 0;
+}
+
+FVector ATetriTestGameMode::CalcPosFromXYZ(const int x, const int y, const int z) {
+	FVector pos;
+	pos.X = (x - SCENE_SIZE / 2.f) * _BLOCK_SIZE_ + _BLOCK_SIZE_ / 2.f;
+	pos.Y = (y - SCENE_SIZE / 2.f) * _BLOCK_SIZE_ + _BLOCK_SIZE_ / 2.f;
+	pos.Z = (z) * _BLOCK_SIZE_ + _BLOCK_SIZE_ / 2.f + 100.f;
+	return pos;
+}
+
+FVector ATetriTestGameMode::CorrectPosition(FVector pos) {
+	int x, y, z;
+	CalcXYZFromPos(pos, x, y, z);
+	return CalcPosFromXYZ(x, y, z);
 }
 
 //Is it a free space on a new locations?
@@ -121,10 +143,9 @@ bool ATetriTestGameMode::CheckMoveBlock(const FVector newPos, Figure* owner) {
 	return check;
 }
 
-void ATetriTestGameMode::MoveBlockInScene(AActor* block, const FVector newPos) {
-	FVector pos = block->GetActorLocation();
+void ATetriTestGameMode::MoveBlockInScene(AActor* block, const FVector oldPos, const FVector newPos) {
 	int x, y, z;
-	CalcXYZFromPos(pos, x, y, z);
+	CalcXYZFromPos(oldPos, x, y, z);
 	fullScene[x][y][z] = nullptr;
 	CalcXYZFromPos(newPos, x, y, z);
 	fullScene[x][y][z] = block;

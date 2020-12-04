@@ -25,6 +25,10 @@ public:
 	// Sets default values for this actor's properties
 	ACubeActor();
 
+	//for falling. Should be deleted, when falling is finished
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	class UProjectileMovementComponent* ProjectileMovement;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

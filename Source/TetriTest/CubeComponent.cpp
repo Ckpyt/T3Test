@@ -48,15 +48,10 @@ UCubeComponent::UCubeComponent()
 			//CollisionComp->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 			CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");
 			CollisionComp->OnComponentHit.AddDynamic(this, &UCubeComponent::OnHit);		// set up a notification for when this component hits something blocking
+			CollisionComp->bApplyImpulseOnDamage = true;
+			CollisionComp->bIgnoreRadialForce = true;
+			CollisionComp->bIgnoreRadialImpulse = true;
 
-			// Use a ProjectileMovementComponent to govern this projectile's movement
-			/*ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
-			ProjectileMovement->UpdatedComponent = cube;
-			ProjectileMovement->InitialSpeed = 10.f;
-			ProjectileMovement->MaxSpeed = 10.f;
-			ProjectileMovement->bRotationFollowsVelocity = true;
-			ProjectileMovement->bShouldBounce = true;
-			ProjectileMovement->Activate(true); */
 			//std::cout << "do it finished" << std::endl;
 		}
 	}
@@ -81,20 +76,19 @@ void ACubeActor::Tick(float DeltaTime)
 int UCubeComponent::CalcCrossedSide(FVector other) {
 	FVector pos = cube->GetComponentLocation();
 	
-
-	//std::cout << other.Z << " " << pos.Z << " " << cube->GetComponentLocation().Z << std::endl;
+	//UE_LOG(LogTemp, Warning, TEXT("Other vector: x:%f, y:%f, z:%f"), other.X, other.Y, other.Z);
 
 	FVector impulse = other - pos;
-	float x = impulse.X > 0 ? impulse.X : -impulse.X;
-	float y = impulse.Y > 0 ? impulse.Y : -impulse.Y;
-	float z = impulse.Z > 0 ? impulse.Z : -impulse.Z;
+	//UE_LOG(LogTemp, Warning, TEXT("impulse vector: x:%f, y:%f, z:%f"), impulse.X, impulse.Y, impulse.Z);
+	float tmpX = impulse.X > 0 ? impulse.X : -impulse.X;
+	float tmpY = impulse.Y > 0 ? impulse.Y : -impulse.Y;
 
-	//std::cout << "x" << x << "y" << y << "z" << z << std::endl;
+	//UE_LOG(LogTemp, Warning, TEXT("impulse vector: x:%f, y:%f"), X, Y);
 
-	if (x > 520.0f) {
+	if (tmpX > 520.0f) {
 		return impulse.X > 0 ? 1 : -1;
 	}
-	else if (y > 520.0f) {
+	else if (tmpY > 520.0f) {
 		return impulse.Y > 0 ? 2 : -2;
 	}
 	else {
@@ -103,6 +97,40 @@ int UCubeComponent::CalcCrossedSide(FVector other) {
 
 	return 0;
 }
+
+void UCubeComponent::UpdateLocalPosition() {
+	location = GetOwner()->GetActorLocation();
+}
+
+void UCubeComponent::Tick() {
+	int x = 0, y = 0, z = 0;
+	ATetriTestGameMode::CalcXYZFromPos(location, x, y, z);
+	ATetriTestGameMode*mode = ATetriTestGameMode::GetGameMode();
+
+	if (figure->IsItFalling()) {
+		int newX, newY, newZ;
+		FVector pos = GetOwner()->GetActorLocation();
+		float zPos = pos.Z;
+
+		mode->CalcXYZFromPos(pos, newX, newY, newZ);
+
+		if (newX != x || newY != y || newZ != z) {
+			if (mode->CheckMoveBlock(pos, figure) ) {
+				x = newX; 
+				y = newY;
+				z = newZ;
+				mode->MoveBlockInScene(GetOwner(), location, pos);
+				location = pos;
+			}
+			else {
+				figure->StopFalling();
+			}
+		}
+		zPos += 10;
+	}
+}
+
+FVector UCubeComponent::GetLocation() { return location; }
 
 void UCubeComponent::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
@@ -165,7 +193,7 @@ UCubeComponent* UCubeComponent::SpawnBlock(const int x, const int y, Figure* own
 	{
 
 		FRotator SpawnRotation(0.f,0.f,0.f);
-		FVector SpawnLocation(((float)x - 1.5f) * 1000.f, ((float)y - 1.5f) * 1000.f, 3500.f);
+		FVector SpawnLocation(((float)x - 1.5f) * 1000.f, ((float)y - 1.5f) * 1000.f, _MAX_HEIGHT_ - 500.f);
 		FActorSpawnParameters ActorSpawnParams;
 
 		//Set Spawn Collision Handling Override

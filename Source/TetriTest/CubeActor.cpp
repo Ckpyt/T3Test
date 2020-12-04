@@ -4,7 +4,8 @@
 
 #include "CubeActor.h"
 #include "CubeComponent.h"
-
+#include "GameFramework/ProjectileMovementComponent.h"
+#include "Figure.h"
 
 // Sets default values
 ACubeActor::ACubeActor()
@@ -44,6 +45,17 @@ ACubeActor::ACubeActor()
 	CubeComp = CreateDefaultSubobject<UCubeComponent>(TEXT("Cube"));
 	CubeComp->currentMode = type;
 
+	// Use a ProjectileMovementComponent to govern this projectile's movement
+	/*ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
+	//ProjectileMovement->UpdatedComponent = CubeComp;
+	ProjectileMovement->MaxSpeed = 1000.f;
+	ProjectileMovement->InitialSpeed = 1000;
+	ProjectileMovement->Velocity = FVector(0, 0, 1000);
+
+	ProjectileMovement->bRotationFollowsVelocity = false;
+	ProjectileMovement->bShouldBounce = true;
+	ProjectileMovement->Bounciness = 0;
+	ProjectileMovement->ProjectileGravityScale = 0;*/
 	AddOwnedComponent(CubeComp); 
 
 #define scale 250.f
@@ -62,5 +74,12 @@ void ACubeActor::BeginPlay()
 void ACubeActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (owner->IsItFalling())
+	{
+		FVector pos = GetActorLocation();
+		pos.Z -= DeltaTime * 500;
+		SetActorLocation(pos);
+		CubeComp->Tick();
+	}
+		//ProjectileMovement->Velocity = FVector(0, 0, -200);
 }

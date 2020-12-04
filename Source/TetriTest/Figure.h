@@ -14,24 +14,30 @@ class TETRITEST_API Figure
 	//all the blocks
 	std::map<long, AActor*> blocks;
 	
-	//rotation of whole figure. degrees = rot*90
-	char rotX, rotY, rotZ;
+	bool isItFalling = true;
+	bool isItDeleted = false;
 
 	long figureId = 0;
+	
 public:
 	Figure();
 	~Figure();
+
+	bool IsItFalling();
+	void StopFalling();
 
 	void AddBlock(AActor* block, long id);
 	void Push(int side);
 	void Pull(int side);
 	void Rotate(int side, FVector blockPos);
 	void CouterRotate(int side, FVector blockPos);
-	void DestroyFigure();
 
+	void DestroyFigure();
 	void DestroyBlock(long id, bool destroying = false);
 
 	long GetId();
+
+	void Tick();
 private:
 	void RotateX(float mul, FVector& pos);
 	void RotateY(float mul, FVector& pos);
