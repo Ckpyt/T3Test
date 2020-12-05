@@ -74,12 +74,11 @@ void ACubeActor::BeginPlay()
 void ACubeActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (owner->IsItFalling())
+	/*if (owner->IsItFalling())
 	{
 		FVector pos = GetActorLocation();
 		pos.Z -= DeltaTime * 500;
 		SetActorLocation(pos);
 		CubeComp->Tick();
-	}
-		//ProjectileMovement->Velocity = FVector(0, 0, -200);
+	}*/
 }

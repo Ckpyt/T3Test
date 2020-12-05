@@ -24,10 +24,10 @@ class ATetriTestGameMode : public AGameModeBase
 	static ATetriTestGameMode* instance;
 
 	//last block ID
-	long lastID = 0;
+	static long lastID;
 
 	void BeginPlay() override;
-	Figure* fallingFigure = nullptr;
+	AFigure* fallingFigure = nullptr;
 
 public:
 	ATetriTestGameMode();
@@ -40,9 +40,9 @@ public:
 static ATetriTestGameMode* GetGameMode();
 
 	//check a new location of the block: is it inside in the scene?
-	bool CheckMoveBlock(const FVector newPos, Figure* owner);
+	bool CheckMoveBlock(const FVector newPos, AFigure* owner);
 	//check a new location of the figure: is it inside in the scene?
-	bool CheckMoveFigure(std::vector<FVector> &figure, Figure* owner);
+	bool CheckMoveFigure(std::vector<FVector> &figure, AFigure* owner);
 
 	//moving block in the game scene
 	void MoveBlockInScene(AActor* block, const FVector oldPos, const FVector newPos);

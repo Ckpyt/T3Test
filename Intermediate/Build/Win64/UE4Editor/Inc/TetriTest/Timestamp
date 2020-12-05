@@ -1,9 +1,10 @@
 E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\CubeActor.h
 E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\CubeComponent.h
 E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\TestActorComponent.h
-E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\TetriTestCharacter.h
 E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\TetriTestGameMode.h
-E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\TetriTestHUD.h
-E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\TetriTestStateBase.h
 E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\TetriTestProjectile.h
+E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\TetriTestHUD.h
 E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\Tools.h
+E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\TetriTestStateBase.h
+E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\TetriTestCharacter.h
+E:\CPP\UnrealProjects\TetriTest\Source\TetriTest\Figure.h

@@ -20,7 +20,7 @@ public:
 	UPROPERTY(VisibleDefaultsOnly)
 	class UCubeComponent* CubeComp;
 	//whole figure owner
-	class Figure* owner;
+	class AFigure* owner;
 	
 	// Sets default values for this actor's properties
 	ACubeActor();

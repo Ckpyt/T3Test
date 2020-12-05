@@ -25,6 +25,7 @@ bool AllFigures[FIGURES][4][2] = {
 };
 
 ATetriTestGameMode* ATetriTestGameMode::instance = nullptr;
+long ATetriTestGameMode::lastID = 0;
 
 ATetriTestGameMode::ATetriTestGameMode()
 	: Super()
@@ -48,7 +49,7 @@ ATetriTestGameMode::ATetriTestGameMode()
 			for (int x = 0; x < SCENE_SIZE; x++) 
 				fullScene[x][y][z] = nullptr;
 
-	DropFigure();
+	
 }
 
 //does not work ;-(
@@ -59,6 +60,7 @@ void ATetriTestGameMode::InitGame(const FString& MapName, const FString& Options
 
 void ATetriTestGameMode::BeginPlay() {
 	Super::BeginPlay();
+	DropFigure();
 }
 
 void ATetriTestGameMode::ClearScene() {
@@ -78,8 +80,8 @@ void ATetriTestGameMode::ClearScene() {
 
 void ATetriTestGameMode::DropFigure() {
 	UCubeComponent* owner = nullptr;
-	if (fallingFigure == nullptr || fallingFigure->IsItFalling() == false) {
-		Figure* fig = new Figure();
+	if (GetWorld() != nullptr && (fallingFigure == nullptr || fallingFigure->IsItFalling() == false)) {
+		AFigure* fig = AFigure::SpawnFigure(GetWorld());
 		srand(time(NULL));
 		int figure = rand() % 5;
 		bool first = true;
@@ -126,7 +128,7 @@ FVector ATetriTestGameMode::CorrectPosition(FVector pos) {
 }
 
 //Is it a free space on a new locations?
-bool ATetriTestGameMode::CheckMoveBlock(const FVector newPos, Figure* owner) {
+bool ATetriTestGameMode::CheckMoveBlock(const FVector newPos, AFigure* owner) {
 	FVector playerPos = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 	int x, y, z;
 	CalcXYZFromPos(newPos, x, y, z);
@@ -135,11 +137,20 @@ bool ATetriTestGameMode::CheckMoveBlock(const FVector newPos, Figure* owner) {
 	if (check) {
 		check = check && fullScene[x][y][z] == nullptr;															//check address
 		if (check == false) {
-			Figure* coordOwner = ((ACubeActor*)(fullScene[x][y][z]))->owner;
+			AFigure* coordOwner = ((ACubeActor*)(fullScene[x][y][z]))->owner;
 			check = (coordOwner->GetId() == owner->GetId());												//
 			
 		}
 	}
+	return check;
+}
+
+bool ATetriTestGameMode::CheckMoveFigure(std::vector<FVector> &figurePos, AFigure* owner) {
+	bool check = true;
+	for (FVector pos : figurePos)
+		check &= CheckMoveBlock(pos, owner);
+
+	//UE_LOG(LogTemp, Warning, TEXT("check: %d"), check ? 1 : 0);
 	return check;
 }
 
@@ -152,13 +163,4 @@ void ATetriTestGameMode::MoveBlockInScene(AActor* block, const FVector oldPos, c
 	block->SetActorLocation(newPos);
 }
 
-bool ATetriTestGameMode::CheckMoveFigure(std::vector<FVector> &figurePos, Figure* owner) {
-	bool check = true;
-	for (FVector pos : figurePos)
-		check &= CheckMoveBlock(pos, owner);
-
-	//UE_LOG(LogTemp, Warning, TEXT("check: %d"), check ? 1 : 0);
-	return check;
-}
-
-long ATetriTestGameMode::GetNextId() { return ++instance->lastID; }
+long ATetriTestGameMode::GetNextId() { return ++lastID; }

@@ -3,14 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
 #include <map>
+#include "Figure.generated.h"
 
 /**
  * Holder of all blocks of the falling figure.
  * Could be only one in the level.
  */
-class TETRITEST_API Figure
+UCLASS()
+class TETRITEST_API AFigure : public AActor
 {
+	GENERATED_BODY()
 	//all the blocks
 	std::map<long, AActor*> blocks;
 	
@@ -20,8 +24,8 @@ class TETRITEST_API Figure
 	long figureId = 0;
 	
 public:
-	Figure();
-	~Figure();
+	AFigure();
+	~AFigure();
 
 	bool IsItFalling();
 	void StopFalling();
@@ -37,9 +41,12 @@ public:
 
 	long GetId();
 
-	void Tick();
+	virtual void Tick(float DeltaTime) override;
+
+	static AFigure* SpawnFigure(UWorld* const World);
 private:
 	void RotateX(float mul, FVector& pos);
 	void RotateY(float mul, FVector& pos);
 	void RotateZ(float mul, FVector& pos);
+	void MoveFigure(int side, FVector& move);
 };

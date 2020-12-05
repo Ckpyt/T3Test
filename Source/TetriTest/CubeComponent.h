@@ -10,7 +10,7 @@
 
 #define _BLOCK_SIZE_ 1000.f
 
-class Figure;
+class AFigure;
 
 //cube component. Used for moving, rotation and delete cube
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
@@ -30,12 +30,10 @@ class TETRITEST_API UCubeComponent : public UActorComponent
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	class UProjectileMovementComponent* ProjectileMovement;
 
-	Figure* figure;
-	UCubeComponent* parent = nullptr;
-	//current position in the glassful
-	FVector location;
+	AFigure* figure;
 
 public:	
+	FVector location;
 	long id;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
@@ -58,7 +56,7 @@ public:
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
-	static UCubeComponent* SpawnBlock(const int x, const int y, Figure* owner, long id, UWorld* const World);
+	static UCubeComponent* SpawnBlock(const int x, const int y, AFigure* owner, long id, UWorld* const World);
 
 	void Tick();
 

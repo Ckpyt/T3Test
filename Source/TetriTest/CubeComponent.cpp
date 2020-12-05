@@ -103,31 +103,7 @@ void UCubeComponent::UpdateLocalPosition() {
 }
 
 void UCubeComponent::Tick() {
-	int x = 0, y = 0, z = 0;
-	ATetriTestGameMode::CalcXYZFromPos(location, x, y, z);
-	ATetriTestGameMode*mode = ATetriTestGameMode::GetGameMode();
-
-	if (figure->IsItFalling()) {
-		int newX, newY, newZ;
-		FVector pos = GetOwner()->GetActorLocation();
-		float zPos = pos.Z;
-
-		mode->CalcXYZFromPos(pos, newX, newY, newZ);
-
-		if (newX != x || newY != y || newZ != z) {
-			if (mode->CheckMoveBlock(pos, figure) ) {
-				x = newX; 
-				y = newY;
-				z = newZ;
-				mode->MoveBlockInScene(GetOwner(), location, pos);
-				location = pos;
-			}
-			else {
-				figure->StopFalling();
-			}
-		}
-		zPos += 10;
-	}
+	
 }
 
 FVector UCubeComponent::GetLocation() { return location; }
@@ -168,15 +144,6 @@ void UCubeComponent::DestroyFigure() {
 }
 
 void UCubeComponent::Destroy() {
-	//move figure holder to another block
-	/*if (parent == nullptr && figure.size() > 0) {
-		auto newparent = figure[0];
-		newparent->parent = nullptr;
-		for (int i = 1; i < figure.size(); i++) {
-			newparent->figure.push_back(figure[i]);
-			figure[i]->parent = newparent;
-		}
-	}*/
 
 	switch (currentMode) {
 	case 0: ATetriTestCharacter::AddPushCharges(); break;
@@ -186,7 +153,7 @@ void UCubeComponent::Destroy() {
 	figure->DestroyBlock(id);
 }
 
-UCubeComponent* UCubeComponent::SpawnBlock(const int x, const int y, Figure* owner, long id, UWorld* const World) {
+UCubeComponent* UCubeComponent::SpawnBlock(const int x, const int y, AFigure* owner, long id, UWorld* const World) {
 	UCubeComponent* cube = nullptr;
 	static const TSubclassOf<class ACubeActor> ProjectileClass;
 	if (World != NULL)
@@ -202,6 +169,7 @@ UCubeComponent* UCubeComponent::SpawnBlock(const int x, const int y, Figure* own
 		FTransform SpawnTransform(SpawnRotation, SpawnLocation);
 		ACubeActor* actor = World->SpawnActor<ACubeActor>(ACubeActor::StaticClass(), SpawnLocation, SpawnRotation, ActorSpawnParams); //mode and material in the constructor
 		if (actor != nullptr) {
+			actor->SetOwner(owner);
 			actor->owner = owner;
 			cube = actor->CubeComp;
 			cube->id = id;
