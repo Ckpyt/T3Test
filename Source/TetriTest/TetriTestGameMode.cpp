@@ -27,6 +27,7 @@ bool AllFigures[FIGURES][4][2] = {
 
 ATetriTestGameMode* ATetriTestGameMode::instance = nullptr;
 long ATetriTestGameMode::lastID = 0;
+bool ATetriTestGameMode::canFigureDrop = true;
 
 ATetriTestGameMode::ATetriTestGameMode()
 	: Super()
@@ -52,6 +53,9 @@ ATetriTestGameMode::ATetriTestGameMode()
 
 	
 }
+
+//stop dropping
+ATetriTestGameMode::~ATetriTestGameMode() { canFigureDrop = false; }
 
 //does not work ;-(
 void ATetriTestGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) {
@@ -80,19 +84,21 @@ void ATetriTestGameMode::ClearScene() {
 }
 
 void ATetriTestGameMode::DropFigure() {
-	UCubeComponent* owner = nullptr;
-	if (GetWorld() != nullptr && (fallingFigure == nullptr || fallingFigure->IsItFalling() == false)) {
-		AFigure* fig = AFigure::SpawnFigure(GetWorld());
-		srand(time(NULL));
-		int figure = rand() % 5;
-		bool first = true;
-		for (int x = 0; x < 4; x++)
-			for (int y = 0; y < 2; y++)
-				if (AllFigures[figure][x][y]) {
-					UCubeComponent::SpawnBlock(x, y, fig, GetNextId(), GetWorld());
-				}
+	if (canFigureDrop) {
+		UCubeComponent* owner = nullptr;
+		if (GetWorld() != nullptr && (fallingFigure == nullptr || fallingFigure->IsItFalling() == false)) {
+			AFigure* fig = AFigure::SpawnFigure(GetWorld());
+			srand(time(NULL));
+			int figure = rand() % 5;
+			bool first = true;
+			for (int x = 0; x < 4; x++)
+				for (int y = 0; y < 2; y++)
+					if (AllFigures[figure][x][y]) {
+						UCubeComponent::SpawnBlock(x, y, fig, GetNextId(), GetWorld());
+					}
 
-		fallingFigure = fig;
+			fallingFigure = fig;
+		}
 	}
 }
 
@@ -142,6 +148,15 @@ void ATetriTestGameMode::CheckAndDestroyLayers(AFigure* figure) {
 			DestroyLayer(z);
 		}
 	}while (iter != zCoord.begin());
+	int scores = 0;
+
+	switch (layers) {
+	case 1: scores = 1; break;
+	case 2: scores = 3; break;
+	case 3: scores = 5; break;
+	case 4: scores = 7; break;
+	}
+	ATetriTestCharacter::scores += scores;
 }
 
 void ATetriTestGameMode::DestroyLayer(int z) {

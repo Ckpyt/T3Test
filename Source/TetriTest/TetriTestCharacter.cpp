@@ -19,6 +19,7 @@
 int ATetriTestCharacter::pushCharges = CHARGES_MAX;
 int ATetriTestCharacter::rotateCharges = CHARGES_MAX;
 int ATetriTestCharacter::destroyCharges = CHARGES_MAX;
+int ATetriTestCharacter::scores = 0;
 
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);

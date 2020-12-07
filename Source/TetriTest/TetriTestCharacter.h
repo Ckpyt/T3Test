@@ -58,6 +58,7 @@ class ATetriTestCharacter : public ACharacter
 	float lastJumpTime = 0;
 	/** maximum jump speed. Used for jetPack **/
 	float maxJumpVelocity = 0;
+
 public:
 	ATetriTestCharacter();
 
@@ -96,6 +97,7 @@ public:
 	static int pushCharges;
 	static int rotateCharges;
 	static int destroyCharges;
+	static int scores;
 
 	DECLARE_DELEGATE_OneParam(FChooseDelegate, int32);
 	DECLARE_DELEGATE_OneParam(FFireDelegate, int32);

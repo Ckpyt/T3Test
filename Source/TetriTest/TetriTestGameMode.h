@@ -25,12 +25,14 @@ class ATetriTestGameMode : public AGameModeBase
 
 	//last block ID
 	static long lastID;
+	static bool canFigureDrop;
 
 	void BeginPlay() override;
 	AFigure* fallingFigure = nullptr;
 
 public:
 	ATetriTestGameMode();
+	~ATetriTestGameMode();
 
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 
