@@ -62,10 +62,12 @@ public:
 
 	void UpdateLocalPosition();
 	FVector GetLocation();
+	void Destroy();
+
 private:
 	int CalcCrossedSide(FVector other);
 
 	void DestroyFigure();
-	void Destroy();
+	
 	
 };

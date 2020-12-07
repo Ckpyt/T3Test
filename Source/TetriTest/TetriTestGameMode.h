@@ -34,10 +34,13 @@ public:
 
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 
+static ATetriTestGameMode* GetGameMode();
+
 	void ClearScene();
 	void DropFigure();
 
-static ATetriTestGameMode* GetGameMode();
+	//If there is any full layers, they will be destroyed
+	void CheckAndDestroyLayers(AFigure* figure);
 
 	//check a new location of the block: is it inside in the scene?
 	bool CheckMoveBlock(const FVector newPos, AFigure* owner);
@@ -59,6 +62,8 @@ static ATetriTestGameMode* GetGameMode();
 
 	//correcting position in the scene
 	static FVector CorrectPosition(FVector pos);
+private:
+	void DestroyLayer(int z);
 };
 
 

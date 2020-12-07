@@ -39,6 +39,7 @@ public:
 	void DestroyFigure();
 	void DestroyBlock(long id, bool destroying = false);
 
+	void GetZCoordinates(std::map<int, int>& coord);
 	long GetId();
 
 	virtual void Tick(float DeltaTime) override;

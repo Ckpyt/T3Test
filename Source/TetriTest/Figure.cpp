@@ -113,7 +113,16 @@ void AFigure::Push(int side) {
 	}
 
 	MoveFigure(side, pos);
-	
+	if(isItFalling == false)
+		ATetriTestGameMode::GetGameMode()->CheckAndDestroyLayers(this);
+}
+
+void AFigure::GetZCoordinates(std::map<int, int>& coord) {
+	int x, y, z;
+	for (auto blockPair : blocks) {
+		ATetriTestGameMode::CalcXYZFromPos(blockPair.second->GetActorLocation(), x, y, z);
+		coord[z]++;
+	}
 }
 
 void AFigure::StopFalling() { 
@@ -128,6 +137,8 @@ void AFigure::StopFalling() {
 		if (locCorrect.Z > pos.Z)
 			pos = locCorrect;
 	}
+
+	mode->CheckAndDestroyLayers(this);
 
 	if (pos.Z + 1000.f <= _MAX_HEIGHT_) //is there some space for the next figure?
 		mode->DropFigure(); 

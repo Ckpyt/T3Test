@@ -3,6 +3,7 @@
 #include "TetriTestGameMode.h"
 #include <iostream>     // std::cout, std::ostream, std::ios
 #include <fstream>      // std::filebuf
+#include <map>
 
 #include "Figure.h"
 #include "TetriTestHUD.h"
@@ -119,6 +120,47 @@ FVector ATetriTestGameMode::CalcPosFromXYZ(const int x, const int y, const int z
 	pos.Y = (y - SCENE_SIZE / 2.f) * _BLOCK_SIZE_ + _BLOCK_SIZE_ / 2.f;
 	pos.Z = (z) * _BLOCK_SIZE_ + _BLOCK_SIZE_ / 2.f + 100.f;
 	return pos;
+}
+
+void ATetriTestGameMode::CheckAndDestroyLayers(AFigure* figure) {
+	std::map<int, int> zCoord;
+	zCoord.clear();
+	figure->GetZCoordinates(zCoord);
+	int layers = 0;
+	bool stop = false;
+	auto iter = zCoord.end();
+	do{
+		iter--;
+		//if there is one block or more in that layer
+		int z = iter->first; //it should be key
+		bool check = true;
+		for (int x = 0; x < SCENE_SIZE && check; x++)
+			for (int y = 0; y < SCENE_SIZE && check; y++)
+				check &= fullScene[x][y][z] != nullptr;
+		if (check) {
+			layers++;
+			DestroyLayer(z);
+		}
+	}while (iter != zCoord.begin());
+}
+
+void ATetriTestGameMode::DestroyLayer(int z) {
+	for (int x = 0; x < SCENE_SIZE; x++)
+		for (int y = 0; y < SCENE_SIZE; y++)
+			((ACubeActor*)fullScene[x][y][z])->owner->DestroyBlock(((ACubeActor*)fullScene[x][y][z])->CubeComp->id);
+
+	//move all layers on one down
+	for (int x = 0; x < SCENE_SIZE; x++)
+		for (int y = 0; y < SCENE_SIZE; y++)
+			for (int newZ = z + 1; newZ + 1 < SCENE_HEIGHT; newZ++)
+				if (fullScene[x][y][newZ] != nullptr)
+					MoveBlockInScene(fullScene[x][y][newZ], fullScene[x][y][newZ]->GetActorLocation(), CalcPosFromXYZ(x, y, newZ - 1));
+
+	//upper layer should be empty
+	for (int x = 0; x < SCENE_SIZE; x++)
+		for (int y = 0; y < SCENE_SIZE; y++)
+			fullScene[x][y][SCENE_HEIGHT - 1] = nullptr;
+
 }
 
 FVector ATetriTestGameMode::CorrectPosition(FVector pos) {
