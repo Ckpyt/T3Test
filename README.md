@@ -8,5 +8,3 @@ weapons:
 3 - destroy block/figure
 
 Destroying block charge weapons. The same color of block charge the same colored weapon.
-
-No scores yet
