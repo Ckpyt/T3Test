@@ -8,6 +8,7 @@
 #include "TetriTestProjectile.h"
 #include "TetriTestGameMode.h"
 #include "Figure.h"
+#include <stdio.h>
 
 const float UCubeComponent::size = _BLOCK_SIZE_;
 
@@ -15,8 +16,8 @@ const float UCubeComponent::size = _BLOCK_SIZE_;
 UCubeComponent::UCubeComponent()
 {
 	
-	LStream Stream;
-	std::cout.rdbuf(&Stream);
+//	LStream Stream;
+//	std::cout.rdbuf(&Stream);
 
 	//std::cout << "do it! 3" << std::endl;
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -102,10 +103,6 @@ void UCubeComponent::UpdateLocalPosition() {
 	location = GetOwner()->GetActorLocation();
 }
 
-void UCubeComponent::Tick() {
-	
-}
-
 FVector UCubeComponent::GetLocation() { return location; }
 
 void UCubeComponent::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
@@ -160,7 +157,7 @@ UCubeComponent* UCubeComponent::SpawnBlock(const int x, const int y, AFigure* ow
 	{
 
 		FRotator SpawnRotation(0.f,0.f,0.f);
-		FVector SpawnLocation(((float)x - 1.5f) * 1000.f, ((float)y - 1.5f) * 1000.f, _MAX_HEIGHT_ - 500.f);
+		FVector SpawnLocation(((float)x - 1.5f) * _BLOCK_SIZE_, ((float)y - 1.5f) * _BLOCK_SIZE_, ATetriTestGameMode::maxHeight - _BLOCK_SIZE_ / 2);
 		FActorSpawnParameters ActorSpawnParams;
 
 		//Set Spawn Collision Handling Override

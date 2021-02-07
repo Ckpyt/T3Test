@@ -21,7 +21,7 @@ void EmptyLinkFunctionForGeneratedCodeTetriTest_init() {}
 				nullptr,
 				0,
 				PKG_CompiledIn | 0x00000000,
-				0xD4255381,
+				0x59C11DF4,
 				0xBB6B9607,
 				METADATA_PARAMS(nullptr, 0)
 			};

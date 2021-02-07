@@ -40,10 +40,12 @@ void EmptyLinkFunctionForGeneratedCodeTetriTestGameMode() {}
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ATetriTestGameMode_Statics::Class_MetaDataParams[] = {
+		{ "Comment", "//#define SCENE_SIZE 4\n//#define SCENE_HEIGHT 20\n//#define _MAX_HEIGHT_ 19000.f\n" },
 		{ "HideCategories", "Info Rendering MovementReplication Replication Actor Input Movement Collision Rendering Utilities|Transformation" },
 		{ "IncludePath", "TetriTestGameMode.h" },
 		{ "ModuleRelativePath", "TetriTestGameMode.h" },
 		{ "ShowCategories", "Input|MouseInput Input|TouchInput" },
+		{ "ToolTip", "#define SCENE_SIZE 4\n#define SCENE_HEIGHT 20\n#define _MAX_HEIGHT_ 19000.f" },
 	};
 #endif
 	const FCppClassTypeInfoStatic Z_Construct_UClass_ATetriTestGameMode_Statics::StaticCppClassTypeInfo = {
@@ -73,7 +75,7 @@ void EmptyLinkFunctionForGeneratedCodeTetriTestGameMode() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(ATetriTestGameMode, 3220890165);
+	IMPLEMENT_CLASS(ATetriTestGameMode, 878876119);
 	template<> TETRITEST_API UClass* StaticClass<ATetriTestGameMode>()
 	{
 		return ATetriTestGameMode::StaticClass();

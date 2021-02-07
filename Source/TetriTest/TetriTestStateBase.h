@@ -13,5 +13,9 @@ UCLASS()
 class TETRITEST_API ATetriTestStateBase : public AGameStateBase
 {
 	GENERATED_BODY()
-	
+	float blockSize = 1000.f;
+
+public:
+	const static int chargesPerBlock;
+	const float GetBlockSize();
 };

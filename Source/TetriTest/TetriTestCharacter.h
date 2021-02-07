@@ -16,8 +16,6 @@ class ATetriTestCharacter : public ACharacter
 {
 
 
-#define CHARGES_MAX 10
-
 	GENERATED_BODY()
 
 	mode currentMode;

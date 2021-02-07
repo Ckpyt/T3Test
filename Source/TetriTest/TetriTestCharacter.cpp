@@ -11,14 +11,15 @@
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
+#include "TetriTestStateBase.h"
 
 //...standard class body
 
 
 
-int ATetriTestCharacter::pushCharges = CHARGES_MAX;
-int ATetriTestCharacter::rotateCharges = CHARGES_MAX;
-int ATetriTestCharacter::destroyCharges = CHARGES_MAX;
+int ATetriTestCharacter::pushCharges = ATetriTestStateBase::chargesPerBlock;
+int ATetriTestCharacter::rotateCharges = ATetriTestStateBase::chargesPerBlock;
+int ATetriTestCharacter::destroyCharges = ATetriTestStateBase::chargesPerBlock;
 int ATetriTestCharacter::scores = 0;
 
 
@@ -29,9 +30,9 @@ DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
 ATetriTestCharacter::ATetriTestCharacter()
 {
-	pushCharges = CHARGES_MAX;
-	rotateCharges = CHARGES_MAX;
-	destroyCharges = CHARGES_MAX;
+	pushCharges = ATetriTestStateBase::chargesPerBlock;
+	rotateCharges = ATetriTestStateBase::chargesPerBlock;
+	destroyCharges = ATetriTestStateBase::chargesPerBlock;
 
 
 
@@ -106,8 +107,8 @@ ATetriTestCharacter::ATetriTestCharacter()
 void ATetriTestCharacter::BeginPlay()
 {
 	// turn on logging in std::cout
-	LStream Stream;
-	std::cout.rdbuf(&Stream);
+//	LStream Stream;
+//	std::cout.rdbuf(&Stream);
 
 	// Call the base class  
 	Super::BeginPlay();
@@ -173,28 +174,25 @@ float GetTime() {
 	return timer;
 }
 
-void ATetriTestCharacter::AddPushCharges() { pushCharges += CHARGES_MAX; }
-void ATetriTestCharacter::AddRotateCharges() { rotateCharges += CHARGES_MAX; }
-void ATetriTestCharacter::AddDestroyCharges() { destroyCharges += CHARGES_MAX; }
+void ATetriTestCharacter::AddPushCharges() { pushCharges += ATetriTestStateBase::chargesPerBlock; }
+void ATetriTestCharacter::AddRotateCharges() { rotateCharges += ATetriTestStateBase::chargesPerBlock; }
+void ATetriTestCharacter::AddDestroyCharges() { destroyCharges += ATetriTestStateBase::chargesPerBlock; }
 
 void ATetriTestCharacter::JetPack(float value) {
 
 	JumpCurrentCount = 0;
 	auto pos = GetVelocity();
 	maxJumpVelocity = maxJumpVelocity > pos.Z ? maxJumpVelocity : pos.Z;
-//	std::cout << " current time " << lastJump;
+
 	pos.Z = maxJumpVelocity;
-//	std::cout << " current pos " << pos.Z;
 
 	TArray<UCharacterMovementComponent*> movement;
 	GetComponents(movement);
 	if (movement.Num() > 0 && (lastJumpTime + 0.1 < 0 || lastJumpTime - 0.1 > 0)) {
-//		std::cout << " movement ";
 		UCharacterMovementComponent* mov = movement[0];
 		mov->Velocity = pos;
 	}
 
-//	std::cout << std::endl;
 	if(lastJumpTime + 0.1 < 0 || lastJumpTime -0.1 > 0 )
 		lastJumpTime = GetTime();
 	
@@ -225,8 +223,8 @@ int ATetriTestCharacter::ModeToInt() { return (int)currentMode; }
 void ATetriTestCharacter::OnFire(int fireStep)
 {
 	// turn on logging in std::cout
-	LStream Stream;
-	std::cout.rdbuf(&Stream);
+//	LStream Stream;
+//	std::cout.rdbuf(&Stream);
 
 	int* charges = 0;
 

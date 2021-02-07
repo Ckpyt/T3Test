@@ -8,9 +8,9 @@
 #include "CubeComponent.h"
 #include "TetriTestGameMode.generated.h"
 
-#define SCENE_SIZE 4
-#define SCENE_HEIGHT 20
-#define _MAX_HEIGHT_ 19000.f
+//#define SCENE_SIZE 4
+//#define SCENE_HEIGHT 20
+//#define _MAX_HEIGHT_ 19000.f
 
 UCLASS(minimalapi)
 class ATetriTestGameMode : public AGameModeBase
@@ -18,7 +18,11 @@ class ATetriTestGameMode : public AGameModeBase
 	GENERATED_BODY()
 
 	//the scene occupation by blocks;
-	AActor* fullScene[SCENE_SIZE][SCENE_SIZE][SCENE_HEIGHT];
+	AActor**** fullScene;
+
+	static int sceneSize;
+	static int sceneHeight;
+	
 
 	//should be only one component in the game
 	static ATetriTestGameMode* instance;
@@ -31,6 +35,8 @@ class ATetriTestGameMode : public AGameModeBase
 	AFigure* fallingFigure = nullptr;
 
 public:
+	static const float maxHeight;
+
 	ATetriTestGameMode();
 	~ATetriTestGameMode();
 
@@ -63,9 +69,12 @@ static ATetriTestGameMode* GetGameMode();
 	static FVector CalcPosFromXYZ(const int x, const int y, const int z);
 
 	//correcting position in the scene
-	static FVector CorrectPosition(FVector pos);
+	static FVector CorrectPosition(FVector pos, long id);
 private:
 	void DestroyLayer(int z);
+
+	//check a new location of the block: is it inside in the scene?
+	bool CheckMoveBlockWithID(const FVector newPos, long id);
 };
 
 

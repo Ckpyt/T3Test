@@ -8,14 +8,13 @@
 #include "Figure.generated.h"
 
 /**
- * Holder of all blocks of the falling figure.
- * Could be only one in the level.
+ * Holder of all blocks of the figure.
  */
 UCLASS()
 class TETRITEST_API AFigure : public AActor
 {
 	GENERATED_BODY()
-	//all the blocks
+	//all the blocks in the figure
 	std::map<long, AActor*> blocks;
 	
 	bool isItFalling = true;

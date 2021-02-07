@@ -3,3 +3,4 @@
 
 #include "TetriTestStateBase.h"
 
+const int ATetriTestStateBase::chargesPerBlock = 10;

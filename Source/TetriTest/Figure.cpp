@@ -30,7 +30,9 @@ AFigure* AFigure::SpawnFigure(UWorld* const World) {
 	ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 	FTransform SpawnTransform(SpawnRotation, SpawnLocation);
-	return World->SpawnActor<AFigure>(AFigure::StaticClass(), SpawnLocation, SpawnRotation, ActorSpawnParams); //mode and material in the constructor
+
+	//mode and material in the constructor
+	return World->SpawnActor<AFigure>(AFigure::StaticClass(), SpawnLocation, SpawnRotation, ActorSpawnParams); 
 }
 
 void AFigure::AddBlock(AActor* block, long id) {
@@ -49,13 +51,16 @@ void AFigure::DestroyBlock(long id, bool destroing) {
 }
 
 void AFigure::DestroyFigure() {
+
 	for (auto block : blocks) {
 		DestroyBlock(block.first, true);
 	}
+
 	if (isItFalling) {
 		ATetriTestGameMode::GetGameMode()->ClearFallingFigure();
 		ATetriTestGameMode::GetGameMode()->DropFigure();
 	}
+
 	isItDeleted = true;
 	Destroy();
 }
@@ -88,7 +93,7 @@ void AFigure::MoveFigure(int side, FVector& pos) {
 			ACubeActor* block = (ACubeActor*)blockPair.second;
 			
 			ATetriTestGameMode::GetGameMode()->MoveBlockInScene(block, block->GetActorLocation(),
-				(isItFalling ? block->GetActorLocation() : ATetriTestGameMode::CorrectPosition(block->GetActorLocation()))
+				(isItFalling ? block->GetActorLocation() : ATetriTestGameMode::CorrectPosition(block->GetActorLocation(), block->CubeComp->id))
 				+ pos);
 			block->CubeComp->UpdateLocalPosition();
 		}
@@ -130,17 +135,37 @@ void AFigure::StopFalling() {
 	ATetriTestGameMode* mode = ATetriTestGameMode::GetGameMode();
 	FVector pos;
 
-	for (auto block : blocks) {
-		FVector loc = ((ACubeActor*)block.second)->CubeComp->GetLocation();
-		FVector locCorrect = ATetriTestGameMode::CorrectPosition(loc);
-		mode->MoveBlockInScene(block.second, loc, locCorrect);
-		if (locCorrect.Z > pos.Z)
-			pos = locCorrect;
+	std::vector<FVector> figurePos;
+	figurePos.clear();
+	figurePos.reserve(blocks.size());
+
+	for (auto blockPair : blocks) {
+		ACubeActor* cube = dynamic_cast<ACubeActor*>(blockPair.second);
+		figurePos.push_back(ATetriTestGameMode::CorrectPosition(cube->GetActorLocation(), cube->CubeComp->id));
+	}
+
+	if (mode->CheckMoveFigure(figurePos, this) == false) {
+		for (auto &blockPos : figurePos)
+			blockPos.Z += _BLOCK_SIZE_;
+	}
+
+
+	auto blockIter = blocks.begin();
+	for (int i = 0; i < blocks.size(); i++) {
+		auto block = blockIter->second;
+		
+		auto posCur = figurePos[i];
+		FVector loc = ((ACubeActor*)block)->CubeComp->GetLocation();
+		mode->MoveBlockInScene(block, loc, posCur);
+		if (posCur.Z > pos.Z)
+			pos = posCur;
+
+		blockIter++;
 	}
 
 	mode->CheckAndDestroyLayers(this);
 
-	if (pos.Z + 1000.f <= _MAX_HEIGHT_) //is there some space for the next figure?
+	if (pos.Z + _BLOCK_SIZE_ <= ATetriTestGameMode::maxHeight) //is there some space for the next figure?
 		mode->DropFigure(); 
 }
 
@@ -168,10 +193,9 @@ void AFigure::RotateZ(float mul, FVector& pos) {
 	pos = tmp;
 }
 
-void AFigure::Rotate(int side, FVector blockPos) {
-	//calc the rotation axis coordinates
-	FVector pos = blockPos;//(0,0,0);
+void AFigure::Rotate(int side, FVector pos) {
 
+	//calc the rotation axis coordinates
 	std::vector<FVector> figurePos;
 	figurePos.clear();
 	figurePos.reserve(blocks.size());
@@ -182,7 +206,8 @@ void AFigure::Rotate(int side, FVector blockPos) {
 
 
 	for (auto block : blocks) {
-		FVector blockPos = block.second->GetActorLocation() - pos; //the position, depended on the middle of the figure
+		//the position, depended on the middle of the figure
+		FVector blockPos = block.second->GetActorLocation() - pos; 
 		switch (side) {
 		case 1:   //x
 			RotateX(-1, blockPos);  

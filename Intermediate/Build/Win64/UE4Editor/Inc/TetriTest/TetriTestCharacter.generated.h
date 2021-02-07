@@ -13,20 +13,20 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #endif
 #define TETRITEST_TetriTestCharacter_generated_h
 
-#define TetriTest_Source_TetriTest_TetriTestCharacter_h_21_SPARSE_DATA
-#define TetriTest_Source_TetriTest_TetriTestCharacter_h_21_RPC_WRAPPERS \
+#define TetriTest_Source_TetriTest_TetriTestCharacter_h_19_SPARSE_DATA
+#define TetriTest_Source_TetriTest_TetriTestCharacter_h_19_RPC_WRAPPERS \
  \
 	DECLARE_FUNCTION(execModeToInt); \
 	DECLARE_FUNCTION(execChoose);
 
 
-#define TetriTest_Source_TetriTest_TetriTestCharacter_h_21_RPC_WRAPPERS_NO_PURE_DECLS \
+#define TetriTest_Source_TetriTest_TetriTestCharacter_h_19_RPC_WRAPPERS_NO_PURE_DECLS \
  \
 	DECLARE_FUNCTION(execModeToInt); \
 	DECLARE_FUNCTION(execChoose);
 
 
-#define TetriTest_Source_TetriTest_TetriTestCharacter_h_21_INCLASS_NO_PURE_DECLS \
+#define TetriTest_Source_TetriTest_TetriTestCharacter_h_19_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesATetriTestCharacter(); \
 	friend struct Z_Construct_UClass_ATetriTestCharacter_Statics; \
@@ -35,7 +35,7 @@ public: \
 	DECLARE_SERIALIZER(ATetriTestCharacter)
 
 
-#define TetriTest_Source_TetriTest_TetriTestCharacter_h_21_INCLASS \
+#define TetriTest_Source_TetriTest_TetriTestCharacter_h_19_INCLASS \
 private: \
 	static void StaticRegisterNativesATetriTestCharacter(); \
 	friend struct Z_Construct_UClass_ATetriTestCharacter_Statics; \
@@ -44,7 +44,7 @@ public: \
 	DECLARE_SERIALIZER(ATetriTestCharacter)
 
 
-#define TetriTest_Source_TetriTest_TetriTestCharacter_h_21_STANDARD_CONSTRUCTORS \
+#define TetriTest_Source_TetriTest_TetriTestCharacter_h_19_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API ATetriTestCharacter(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(ATetriTestCharacter) \
@@ -57,7 +57,7 @@ private: \
 public:
 
 
-#define TetriTest_Source_TetriTest_TetriTestCharacter_h_21_ENHANCED_CONSTRUCTORS \
+#define TetriTest_Source_TetriTest_TetriTestCharacter_h_19_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API ATetriTestCharacter(ATetriTestCharacter&&); \
@@ -68,7 +68,7 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(ATetriTestCharacter); \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(ATetriTestCharacter)
 
 
-#define TetriTest_Source_TetriTest_TetriTestCharacter_h_21_PRIVATE_PROPERTY_OFFSET \
+#define TetriTest_Source_TetriTest_TetriTestCharacter_h_19_PRIVATE_PROPERTY_OFFSET \
 	FORCEINLINE static uint32 __PPO__Mesh1P() { return STRUCT_OFFSET(ATetriTestCharacter, Mesh1P); } \
 	FORCEINLINE static uint32 __PPO__FP_Gun() { return STRUCT_OFFSET(ATetriTestCharacter, FP_Gun); } \
 	FORCEINLINE static uint32 __PPO__FP_MuzzleLocation() { return STRUCT_OFFSET(ATetriTestCharacter, FP_MuzzleLocation); } \
@@ -80,26 +80,26 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(ATetriTestCharacter); \
 
 
 #define TetriTest_Source_TetriTest_TetriTestCharacter_h_14_PROLOG
-#define TetriTest_Source_TetriTest_TetriTestCharacter_h_21_GENERATED_BODY_LEGACY \
+#define TetriTest_Source_TetriTest_TetriTestCharacter_h_19_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	TetriTest_Source_TetriTest_TetriTestCharacter_h_21_PRIVATE_PROPERTY_OFFSET \
-	TetriTest_Source_TetriTest_TetriTestCharacter_h_21_SPARSE_DATA \
-	TetriTest_Source_TetriTest_TetriTestCharacter_h_21_RPC_WRAPPERS \
-	TetriTest_Source_TetriTest_TetriTestCharacter_h_21_INCLASS \
-	TetriTest_Source_TetriTest_TetriTestCharacter_h_21_STANDARD_CONSTRUCTORS \
+	TetriTest_Source_TetriTest_TetriTestCharacter_h_19_PRIVATE_PROPERTY_OFFSET \
+	TetriTest_Source_TetriTest_TetriTestCharacter_h_19_SPARSE_DATA \
+	TetriTest_Source_TetriTest_TetriTestCharacter_h_19_RPC_WRAPPERS \
+	TetriTest_Source_TetriTest_TetriTestCharacter_h_19_INCLASS \
+	TetriTest_Source_TetriTest_TetriTestCharacter_h_19_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define TetriTest_Source_TetriTest_TetriTestCharacter_h_21_GENERATED_BODY \
+#define TetriTest_Source_TetriTest_TetriTestCharacter_h_19_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	TetriTest_Source_TetriTest_TetriTestCharacter_h_21_PRIVATE_PROPERTY_OFFSET \
-	TetriTest_Source_TetriTest_TetriTestCharacter_h_21_SPARSE_DATA \
-	TetriTest_Source_TetriTest_TetriTestCharacter_h_21_RPC_WRAPPERS_NO_PURE_DECLS \
-	TetriTest_Source_TetriTest_TetriTestCharacter_h_21_INCLASS_NO_PURE_DECLS \
-	TetriTest_Source_TetriTest_TetriTestCharacter_h_21_ENHANCED_CONSTRUCTORS \
+	TetriTest_Source_TetriTest_TetriTestCharacter_h_19_PRIVATE_PROPERTY_OFFSET \
+	TetriTest_Source_TetriTest_TetriTestCharacter_h_19_SPARSE_DATA \
+	TetriTest_Source_TetriTest_TetriTestCharacter_h_19_RPC_WRAPPERS_NO_PURE_DECLS \
+	TetriTest_Source_TetriTest_TetriTestCharacter_h_19_INCLASS_NO_PURE_DECLS \
+	TetriTest_Source_TetriTest_TetriTestCharacter_h_19_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

@@ -11,6 +11,7 @@
 #include "CubeComponent.h"
 #include "CubeActor.h"
 #include "UObject/ConstructorHelpers.h"
+#include "TetriTestStateBase.h"
 
 
 
@@ -28,36 +29,56 @@ bool AllFigures[FIGURES][4][2] = {
 ATetriTestGameMode* ATetriTestGameMode::instance = nullptr;
 long ATetriTestGameMode::lastID = 0;
 bool ATetriTestGameMode::canFigureDrop = true;
+int ATetriTestGameMode::sceneHeight = 20;
+int ATetriTestGameMode::sceneSize = 4;
+const float ATetriTestGameMode::maxHeight = 19000.f;
 
 ATetriTestGameMode::ATetriTestGameMode()
 	: Super()
 {
-	LStream Stream;
-	std::cout.rdbuf(&Stream);
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/FirstPersonCPP/Blueprints/FirstPersonCharacter"));
 	DefaultPawnClass = PlayerPawnClassFinder.Class;
 
-	// use our custom HUD class
+	// use our custom HUD and GameState class
 	HUDClass = ATetriTestHUD::StaticClass();
-
+	GameStateClass = ATetriTestStateBase::StaticClass();
 
 	instance = this;
-	//std::cout << "Game mode started!!!" << std::endl;
+
+	fullScene = new AActor***[sceneSize];
 
 	//clear scene
-	for (int z = 0; z < SCENE_HEIGHT; z++) 
-		for (int y = 0; y < SCENE_SIZE; y++) 
-			for (int x = 0; x < SCENE_SIZE; x++) 
+	for (int x = 0; x < sceneSize; x++) {
+		fullScene[x] = new AActor **[sceneSize];
+		for (int y = 0; y < sceneSize; y++) {
+			fullScene[x][y] = new AActor *[sceneHeight];
+			for (int z = 0; z < sceneHeight; z++)
 				fullScene[x][y][z] = nullptr;
-
+		}
+	}
 	
 }
 
 //stop dropping
-ATetriTestGameMode::~ATetriTestGameMode() { canFigureDrop = false; }
+ATetriTestGameMode::~ATetriTestGameMode() { 
+	if (canFigureDrop)
+		ClearScene();
 
-//does not work ;-(
+	canFigureDrop = false;
+	if (fullScene != nullptr)
+	{
+		for (int x = 0; x < sceneSize; x++) {
+			for (int y = 0; y < sceneSize; y++)
+				delete[] fullScene[x][y];
+			delete[] fullScene[x];
+		}
+		delete[] fullScene;
+	}
+		
+}
+
+
 void ATetriTestGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) {
 	Super::InitGame(MapName, Options, ErrorMessage);
 	instance = this;
@@ -69,9 +90,9 @@ void ATetriTestGameMode::BeginPlay() {
 }
 
 void ATetriTestGameMode::ClearScene() {
-	for (int z = 0; z < SCENE_HEIGHT; z++) {
-		for (int y = 0; y < SCENE_SIZE; y++) {
-			for (int x = 0; x < SCENE_SIZE; x++) {
+	for (int x = 0; x < sceneSize; x++) {
+		for (int y = 0; y < sceneSize; y++) {
+			for (int z = 0; z < sceneHeight; z++) {
 				if (fullScene[x][y][z] != nullptr) {
 					AActor* actor = fullScene[x][y][z];
 					fullScene[x][y][z] = nullptr;
@@ -105,25 +126,27 @@ void ATetriTestGameMode::DropFigure() {
 ATetriTestGameMode* ATetriTestGameMode::GetGameMode() { return instance; }
 
 void ATetriTestGameMode::ClearBlockLocation(AActor* block) {
-	FVector pos = block->GetActorLocation();
-	int x, y, z;
-	CalcXYZFromPos(pos, x, y, z);
-	fullScene[x][y][z] = nullptr;
+	if (canFigureDrop) {
+		FVector pos = block->GetActorLocation();
+		int x, y, z;
+		CalcXYZFromPos(pos, x, y, z);
+		fullScene[x][y][z] = nullptr;
+	}
 }
 
 void ATetriTestGameMode::ClearFallingFigure() { fallingFigure = nullptr; }
 
 void ATetriTestGameMode::CalcXYZFromPos(const FVector pos, int& x, int& y, int& z) {
-	x = (((pos.X - _BLOCK_SIZE_ / 2.f) / _BLOCK_SIZE_) + SCENE_SIZE / 2.f);
-	y = (((pos.Y - _BLOCK_SIZE_ / 2.f) / _BLOCK_SIZE_) + SCENE_SIZE / 2.f);
+	x = (((pos.X - _BLOCK_SIZE_ / 2.f) / _BLOCK_SIZE_) + sceneSize / 2.f);
+	y = (((pos.Y - _BLOCK_SIZE_ / 2.f) / _BLOCK_SIZE_) + sceneSize / 2.f);
 	z = ((pos.Z - _BLOCK_SIZE_ / 2.f) / _BLOCK_SIZE_);
 	z -= pos.Z < 500 ? 1 : 0;
 }
 
 FVector ATetriTestGameMode::CalcPosFromXYZ(const int x, const int y, const int z) {
 	FVector pos;
-	pos.X = (x - SCENE_SIZE / 2.f) * _BLOCK_SIZE_ + _BLOCK_SIZE_ / 2.f;
-	pos.Y = (y - SCENE_SIZE / 2.f) * _BLOCK_SIZE_ + _BLOCK_SIZE_ / 2.f;
+	pos.X = (x - sceneSize / 2.f) * _BLOCK_SIZE_ + _BLOCK_SIZE_ / 2.f;
+	pos.Y = (y - sceneSize / 2.f) * _BLOCK_SIZE_ + _BLOCK_SIZE_ / 2.f;
 	pos.Z = (z) * _BLOCK_SIZE_ + _BLOCK_SIZE_ / 2.f + 100.f;
 	return pos;
 }
@@ -140,8 +163,8 @@ void ATetriTestGameMode::CheckAndDestroyLayers(AFigure* figure) {
 		//if there is one block or more in that layer
 		int z = iter->first; //it should be key
 		bool check = true;
-		for (int x = 0; x < SCENE_SIZE && check; x++)
-			for (int y = 0; y < SCENE_SIZE && check; y++)
+		for (int x = 0; x < sceneSize && check; x++)
+			for (int y = 0; y < sceneSize && check; y++)
 				check &= fullScene[x][y][z] != nullptr;
 		if (check) {
 			layers++;
@@ -160,45 +183,55 @@ void ATetriTestGameMode::CheckAndDestroyLayers(AFigure* figure) {
 }
 
 void ATetriTestGameMode::DestroyLayer(int z) {
-	for (int x = 0; x < SCENE_SIZE; x++)
-		for (int y = 0; y < SCENE_SIZE; y++)
+	for (int x = 0; x < sceneSize; x++)
+		for (int y = 0; y < sceneSize; y++)
 			((ACubeActor*)fullScene[x][y][z])->owner->DestroyBlock(((ACubeActor*)fullScene[x][y][z])->CubeComp->id);
 
 	//move all layers on one down
-	for (int x = 0; x < SCENE_SIZE; x++)
-		for (int y = 0; y < SCENE_SIZE; y++)
-			for (int newZ = z + 1; newZ + 1 < SCENE_HEIGHT; newZ++)
+	for (int x = 0; x < sceneSize; x++)
+		for (int y = 0; y < sceneSize; y++)
+			for (int newZ = z + 1; newZ + 1 < sceneHeight; newZ++)
 				if (fullScene[x][y][newZ] != nullptr)
 					MoveBlockInScene(fullScene[x][y][newZ], fullScene[x][y][newZ]->GetActorLocation(), CalcPosFromXYZ(x, y, newZ - 1));
 
 	//upper layer should be empty
-	for (int x = 0; x < SCENE_SIZE; x++)
-		for (int y = 0; y < SCENE_SIZE; y++)
-			fullScene[x][y][SCENE_HEIGHT - 1] = nullptr;
+	for (int x = 0; x < sceneSize; x++)
+		for (int y = 0; y < sceneSize; y++)
+			fullScene[x][y][sceneHeight - 1] = nullptr;
 
 }
 
-FVector ATetriTestGameMode::CorrectPosition(FVector pos) {
+FVector ATetriTestGameMode::CorrectPosition(FVector pos, long id) {
 	int x, y, z;
 	CalcXYZFromPos(pos, x, y, z);
 	return CalcPosFromXYZ(x, y, z);
 }
 
-//Is it a free space on a new locations?
+
 bool ATetriTestGameMode::CheckMoveBlock(const FVector newPos, AFigure* owner) {
+	return CheckMoveBlockWithID(newPos, owner->GetId());
+}
+
+//Is it a free space on a new locations?
+bool ATetriTestGameMode::CheckMoveBlockWithID(const FVector newPos, long id) {
 	FVector playerPos = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 	int x, y, z;
 	CalcXYZFromPos(newPos, x, y, z);
-	bool check = (x >= 0 && x < SCENE_SIZE&& y >= 0 && y < SCENE_SIZE&& z >= 0 && z < SCENE_HEIGHT);			//check scene coordinates
-	check &= (newPos.Dist(playerPos, newPos) > _BLOCK_SIZE_ /1.5f);
+	bool check = (x >= 0 && x < sceneSize&& y >= 0 && y < sceneSize&& z >= 0 && z < sceneHeight);			//check scene coordinates
+	float dist = newPos.Dist(playerPos, newPos);
+	check &= (dist > (_BLOCK_SIZE_ /1.5f));
 	if (check) {
 		check = check && fullScene[x][y][z] == nullptr;															//check address
 		if (check == false) {
 			AFigure* coordOwner = ((ACubeActor*)(fullScene[x][y][z]))->owner;
-			check = (coordOwner->GetId() == owner->GetId());												//
+			check = (coordOwner->GetId() == id);												//
 			
 		}
 	}
+
+	if(check == false)
+		x = 10;
+
 	return check;
 }
 

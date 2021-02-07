@@ -58,8 +58,6 @@ public:
 
 	static UCubeComponent* SpawnBlock(const int x, const int y, AFigure* owner, long id, UWorld* const World);
 
-	void Tick();
-
 	void UpdateLocalPosition();
 	FVector GetLocation();
 	void Destroy();

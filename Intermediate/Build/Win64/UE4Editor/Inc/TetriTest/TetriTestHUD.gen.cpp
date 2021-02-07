@@ -73,7 +73,7 @@ void EmptyLinkFunctionForGeneratedCodeTetriTestHUD() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(ATetriTestHUD, 1447923612);
+	IMPLEMENT_CLASS(ATetriTestHUD, 3634548617);
 	template<> TETRITEST_API UClass* StaticClass<ATetriTestHUD>()
 	{
 		return ATetriTestHUD::StaticClass();
