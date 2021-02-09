@@ -20,22 +20,14 @@ class ATetriTestGameMode : public AGameModeBase
 	//the scene occupation by blocks;
 	AActor**** fullScene;
 
-	static int sceneSize;
-	static int sceneHeight;
-	
-
 	//should be only one component in the game
 	static ATetriTestGameMode* instance;
-
-	//last block ID
-	static long lastID;
-	static bool canFigureDrop;
 
 	void BeginPlay() override;
 	AFigure* fallingFigure = nullptr;
 
 public:
-	static const float maxHeight;
+
 
 	ATetriTestGameMode();
 	~ATetriTestGameMode();

@@ -12,14 +12,15 @@
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 #include "TetriTestStateBase.h"
+#include "TetriTestPlayerState.h"
 
 //...standard class body
 
 
 
-int ATetriTestCharacter::pushCharges = ATetriTestStateBase::chargesPerBlock;
-int ATetriTestCharacter::rotateCharges = ATetriTestStateBase::chargesPerBlock;
-int ATetriTestCharacter::destroyCharges = ATetriTestStateBase::chargesPerBlock;
+int ATetriTestCharacter::pushCharges = ATetriTestPlayerState::chargesPerBlock;
+int ATetriTestCharacter::rotateCharges = ATetriTestPlayerState::chargesPerBlock;
+int ATetriTestCharacter::destroyCharges = ATetriTestPlayerState::chargesPerBlock;
 int ATetriTestCharacter::scores = 0;
 
 
@@ -30,12 +31,11 @@ DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
 ATetriTestCharacter::ATetriTestCharacter()
 {
-	pushCharges = ATetriTestStateBase::chargesPerBlock;
-	rotateCharges = ATetriTestStateBase::chargesPerBlock;
-	destroyCharges = ATetriTestStateBase::chargesPerBlock;
+	pushCharges = ATetriTestPlayerState::chargesPerBlock;
+	rotateCharges = ATetriTestPlayerState::chargesPerBlock;
+	destroyCharges = ATetriTestPlayerState::chargesPerBlock;
 
-
-
+	
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
 
@@ -174,9 +174,9 @@ float GetTime() {
 	return timer;
 }
 
-void ATetriTestCharacter::AddPushCharges() { pushCharges += ATetriTestStateBase::chargesPerBlock; }
-void ATetriTestCharacter::AddRotateCharges() { rotateCharges += ATetriTestStateBase::chargesPerBlock; }
-void ATetriTestCharacter::AddDestroyCharges() { destroyCharges += ATetriTestStateBase::chargesPerBlock; }
+void ATetriTestCharacter::AddPushCharges() { pushCharges += ATetriTestPlayerState::chargesPerBlock; }
+void ATetriTestCharacter::AddRotateCharges() { rotateCharges += ATetriTestPlayerState::chargesPerBlock; }
+void ATetriTestCharacter::AddDestroyCharges() { destroyCharges += ATetriTestPlayerState::chargesPerBlock; }
 
 void ATetriTestCharacter::JetPack(float value) {
 
@@ -199,7 +199,7 @@ void ATetriTestCharacter::JetPack(float value) {
 }
 
 void ATetriTestCharacter::Choose(int gunMode) {
-	currentMode = (mode)gunMode;
+	currentMode = (GunMode)gunMode;
 }
 
 void ATetriTestCharacter::Jump() {
@@ -229,9 +229,9 @@ void ATetriTestCharacter::OnFire(int fireStep)
 	int* charges = 0;
 
 	switch (currentMode) {
-	case mode::destroy: charges = &destroyCharges; break;
-	case mode::push: charges = &pushCharges; break;
-	case mode::rotate: charges = &rotateCharges; break;
+	case GunMode::destroy: charges = &destroyCharges; break;
+	case GunMode::push: charges = &pushCharges; break;
+	case GunMode::rotate: charges = &rotateCharges; break;
 	default: charges = &pushCharges; break;
 	}
 

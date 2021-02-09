@@ -7,6 +7,7 @@
 #include "Components/BoxComponent.h"
 #include "TetriTestProjectile.h"
 #include "TetriTestGameMode.h"
+#include "TetriTestStateBase.h"
 #include "Figure.h"
 #include <stdio.h>
 
@@ -134,7 +135,7 @@ void UCubeComponent::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 	}
 }
 
-void UCubeComponent::Init(mode curMode) {currentMode = (int)curMode;}
+void UCubeComponent::Init(GunMode curMode) {currentMode = (int)curMode;}
 
 void UCubeComponent::DestroyFigure() {
 	figure->DestroyFigure();
@@ -151,13 +152,16 @@ void UCubeComponent::Destroy() {
 }
 
 UCubeComponent* UCubeComponent::SpawnBlock(const int x, const int y, AFigure* owner, long id, UWorld* const World) {
+	ATetriTestGameMode* mode = ATetriTestGameMode::GetGameMode();
+	auto state = dynamic_cast<ATetriTestStateBase*>(mode->GameState);
 	UCubeComponent* cube = nullptr;
 	static const TSubclassOf<class ACubeActor> ProjectileClass;
+
 	if (World != NULL)
 	{
 
 		FRotator SpawnRotation(0.f,0.f,0.f);
-		FVector SpawnLocation(((float)x - 1.5f) * _BLOCK_SIZE_, ((float)y - 1.5f) * _BLOCK_SIZE_, ATetriTestGameMode::maxHeight - _BLOCK_SIZE_ / 2);
+		FVector SpawnLocation(((float)x - 1.5f) * _BLOCK_SIZE_, ((float)y - 1.5f) * _BLOCK_SIZE_, state->maxHeight - _BLOCK_SIZE_ / 2);
 		FActorSpawnParameters ActorSpawnParams;
 
 		//Set Spawn Collision Handling Override

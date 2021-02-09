@@ -4,6 +4,7 @@
 #include "CubeActor.h"
 #include <vector>
 #include "TetriTestGameMode.h"
+#include "TetriTestStateBase.h"
 #include "CubeComponent.h"
 
 AFigure::AFigure():
@@ -43,10 +44,14 @@ bool AFigure::IsItFalling() { return isItFalling; }
 
 void AFigure::DestroyBlock(long id, bool destroing) {
 	AActor* block = blocks[id];
+
 	ATetriTestGameMode::GetGameMode()->ClearBlockLocation(block);
 	blocks.erase(id);
-	block->Destroy();
-	if (blocks.size() == 0 && !destroing)
+
+	if (block->IsPendingKillPending() == false) 	
+		block->Destroy();
+	
+	if (destroing == false && blocks.size() == 0 )
 		DestroyFigure();
 }
 
@@ -133,6 +138,7 @@ void AFigure::GetZCoordinates(std::map<int, int>& coord) {
 void AFigure::StopFalling() { 
 	isItFalling = false;
 	ATetriTestGameMode* mode = ATetriTestGameMode::GetGameMode();
+	auto state = dynamic_cast<ATetriTestStateBase*>(mode->GameState);
 	FVector pos;
 
 	std::vector<FVector> figurePos;
@@ -165,7 +171,7 @@ void AFigure::StopFalling() {
 
 	mode->CheckAndDestroyLayers(this);
 
-	if (pos.Z + _BLOCK_SIZE_ <= ATetriTestGameMode::maxHeight) //is there some space for the next figure?
+	if (pos.Z + _BLOCK_SIZE_ <= state->maxHeight) //is there some space for the next figure?
 		mode->DropFigure(); 
 }
 

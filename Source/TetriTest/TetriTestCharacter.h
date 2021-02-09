@@ -18,7 +18,7 @@ class ATetriTestCharacter : public ACharacter
 
 	GENERATED_BODY()
 
-	mode currentMode;
+	GunMode currentMode;
 
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
 	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)

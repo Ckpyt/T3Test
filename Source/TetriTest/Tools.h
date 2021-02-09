@@ -9,7 +9,7 @@ protected:
 };
 
 UENUM()
-enum struct mode {
+enum struct GunMode {
 	push UMETA(DisplayName = "push"),
 	rotate UMETA(DisplayName = "rotate"),
 	destroy UMETA(DisplayName = "destroy")

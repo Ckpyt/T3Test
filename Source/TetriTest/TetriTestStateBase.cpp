@@ -3,4 +3,4 @@
 
 #include "TetriTestStateBase.h"
 
-const int ATetriTestStateBase::chargesPerBlock = 10;
+const float ATetriTestStateBase::maxSceneHeigh = 19000.f;

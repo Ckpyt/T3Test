@@ -51,7 +51,7 @@ public:
 
 	FORCEINLINE int GetMode() const { return (int)currentMode; };
 
-	void Init(mode curMode);
+	void Init(GunMode curMode);
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
