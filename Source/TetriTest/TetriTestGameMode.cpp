@@ -1,5 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+
 #include "TetriTestGameMode.h"
 #include <iostream>     // std::cout, std::ostream, std::ios
 #include <fstream>      // std::filebuf
@@ -8,7 +9,6 @@
 #include "Figure.h"
 #include "TetriTestHUD.h"
 #include "TetriTestCharacter.h"
-#include "CubeComponent.h"
 #include "CubeActor.h"
 #include "UObject/ConstructorHelpers.h"
 #include "TetriTestStateBase.h"
@@ -16,10 +16,11 @@
 
 
 
-#define FIGURES 5 
+const int figuresCount = 5;
+const int figuresX = 4;
+const int figuresY = 2;
 
-
-bool AllFigures[FIGURES][4][2] = {
+const bool AllFigures[figuresCount][figuresX][figuresY] = {
 	{{1,1}, {1,1}, {}, {}},		//square
 	{{1}, {1,1}, {1}, {}},		//triangle .|.
 	{{1}, {1}, {1,1}, {}},		//seven ..|
@@ -114,10 +115,10 @@ void ATetriTestGameMode::DropFigure() {
 		if (GetWorld() != nullptr && (fallingFigure == nullptr || fallingFigure->IsItFalling() == false)) {
 			AFigure* fig = AFigure::SpawnFigure(GetWorld());
 			srand(time(NULL));
-			int figure = rand() % 5;
+			int figure = rand() % figuresCount;
 			bool first = true;
-			for (int x = 0; x < 4; x++)
-				for (int y = 0; y < 2; y++)
+			for (int x = 0; x < figuresX; x++)
+				for (int y = 0; y < figuresY; y++)
 					if (AllFigures[figure][x][y]) {
 						UCubeComponent::SpawnBlock(x, y, fig, GetNextId(), GetWorld());
 					}
@@ -129,8 +130,15 @@ void ATetriTestGameMode::DropFigure() {
 
 ATetriTestGameMode* ATetriTestGameMode::GetGameMode() { return instance; }
 
+ATetriTestStateBase* ATetriTestGameMode::GetGameState() { 
+	ATetriTestGameMode* mode = GetGameMode();
+	if (mode == nullptr) return nullptr;
+	ATetriTestStateBase* state = dynamic_cast<ATetriTestStateBase*>(mode->GameState);
+	return state;
+}
+
 void ATetriTestGameMode::ClearBlockLocation(AActor* block) {
-	auto gameState = dynamic_cast<ATetriTestStateBase*>(GameState);
+	auto gameState = GetGameState();
 	if ( gameState->canFigureDrop) {
 		FVector pos = block->GetActorLocation();
 		int x, y, z;
@@ -142,19 +150,19 @@ void ATetriTestGameMode::ClearBlockLocation(AActor* block) {
 void ATetriTestGameMode::ClearFallingFigure() { fallingFigure = nullptr; }
 
 void ATetriTestGameMode::CalcXYZFromPos(const FVector pos, int& x, int& y, int& z) {
-	auto gameState = dynamic_cast<ATetriTestStateBase*>(GetGameMode()->GameState);
-	x = (((pos.X - _BLOCK_SIZE_ / 2.f) / _BLOCK_SIZE_) + gameState->sceneSize / 2.f);
-	y = (((pos.Y - _BLOCK_SIZE_ / 2.f) / _BLOCK_SIZE_) + gameState->sceneSize / 2.f);
-	z = ((pos.Z - _BLOCK_SIZE_ / 2.f) / _BLOCK_SIZE_);
+	auto gameState = GetGameState();
+	x = (((pos.X - gameState->blockSize / 2.f) / gameState->blockSize) + gameState->sceneSize / 2.f);
+	y = (((pos.Y - gameState->blockSize / 2.f) / gameState->blockSize) + gameState->sceneSize / 2.f);
+	z = ((pos.Z - gameState->blockSize / 2.f) / gameState->blockSize);
 	z -= pos.Z < 500 ? 1 : 0;
 }
 
 FVector ATetriTestGameMode::CalcPosFromXYZ(const int x, const int y, const int z) {
-	auto gameState = dynamic_cast<ATetriTestStateBase*>(GetGameMode()->GameState);
+	auto gameState = GetGameState();
 	FVector pos;
-	pos.X = (x - gameState->sceneSize / 2.f) * _BLOCK_SIZE_ + _BLOCK_SIZE_ / 2.f;
-	pos.Y = (y - gameState->sceneSize / 2.f) * _BLOCK_SIZE_ + _BLOCK_SIZE_ / 2.f;
-	pos.Z = (z) * _BLOCK_SIZE_ + _BLOCK_SIZE_ / 2.f + 100.f;
+	pos.X = (x - gameState->sceneSize / 2.f) * gameState->blockSize + gameState->blockSize / 2.f;
+	pos.Y = (y - gameState->sceneSize / 2.f) * gameState->blockSize + gameState->blockSize / 2.f;
+	pos.Z = (z) *gameState->blockSize + gameState->blockSize / 2.f + 100.f;
 	return pos;
 }
 
@@ -230,7 +238,7 @@ bool ATetriTestGameMode::CheckMoveBlockWithID(const FVector newPos, long id) {
 	//check scene coordinates
 	bool check = (x >= 0 && x < gameState->sceneSize&& y >= 0 && y < gameState->sceneSize&& z >= 0 && z < gameState->sceneHeight);
 	float dist = newPos.Dist(playerPos, newPos);
-	check &= (dist > (_BLOCK_SIZE_ /1.5f));
+	check &= (dist > (gameState->blockSize /1.5f));
 	if (check) {
 		//check address
 		check = check && fullScene[x][y][z] == nullptr;															

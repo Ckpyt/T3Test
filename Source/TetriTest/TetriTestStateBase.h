@@ -18,6 +18,7 @@ public:
 	int sceneSize = 4;
 	int sceneHeight = 20;
 	float maxHeight = blockSize * (sceneHeight - 1);
+	float fallingSpeed = -500.f;
 
 	const static float maxSceneHeigh;
 

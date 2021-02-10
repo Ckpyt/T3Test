@@ -8,8 +8,6 @@
 #include "Tools.h"
 #include "CubeComponent.generated.h"
 
-#define _BLOCK_SIZE_ 1000.f
-
 class AFigure;
 
 //cube component. Used for moving, rotation and delete cube
@@ -17,8 +15,6 @@ UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class TETRITEST_API UCubeComponent : public UActorComponent
 {
 	GENERATED_BODY()
-
-		static const float size;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 		UStaticMeshComponent* cube;

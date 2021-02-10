@@ -78,7 +78,8 @@ void AFigure::Tick(float deltaTime) {
 	Super::Tick(deltaTime);
 
 	if (IsItFalling()) {
-		float deltaZ = deltaTime * -500; //falling speed, need to move in gameMode
+		ATetriTestStateBase* state = dynamic_cast<ATetriTestStateBase*>(ATetriTestGameMode::GetGameMode()->GameState);
+		float deltaZ = deltaTime * state->fallingSpeed;
 		FVector pos(0, 0, deltaZ);
 		MoveFigure(3, pos);
 	}
@@ -110,15 +111,16 @@ void AFigure::MoveFigure(int side, FVector& pos) {
 }
 
 void AFigure::Push(int side) {
+	auto gameState = ATetriTestGameMode::GetGameState();
 	FVector pos(0.f, 0.f, 0.f);
 
 	switch (side) {
 	case 1:
-	case -1: pos.X -= side * _BLOCK_SIZE_; break;
-	case 2: pos.Y -= _BLOCK_SIZE_; break;
-	case -2: pos.Y += _BLOCK_SIZE_; break;
-	case 3: pos.Z -= _BLOCK_SIZE_; break;
-	case -3: pos.Z += _BLOCK_SIZE_; break;
+	case -1: pos.X -= side * gameState->blockSize; break;
+	case 2: pos.Y -= gameState->blockSize; break;
+	case -2: pos.Y += gameState->blockSize; break;
+	case 3: pos.Z -= gameState->blockSize; break;
+	case -3: pos.Z += gameState->blockSize; break;
 	default: break;
 	}
 
@@ -138,7 +140,7 @@ void AFigure::GetZCoordinates(std::map<int, int>& coord) {
 void AFigure::StopFalling() { 
 	isItFalling = false;
 	ATetriTestGameMode* mode = ATetriTestGameMode::GetGameMode();
-	auto state = dynamic_cast<ATetriTestStateBase*>(mode->GameState);
+	auto state = ATetriTestGameMode::GetGameState();
 	FVector pos;
 
 	std::vector<FVector> figurePos;
@@ -152,7 +154,7 @@ void AFigure::StopFalling() {
 
 	if (mode->CheckMoveFigure(figurePos, this) == false) {
 		for (auto &blockPos : figurePos)
-			blockPos.Z += _BLOCK_SIZE_;
+			blockPos.Z += state->blockSize;
 	}
 
 
@@ -171,7 +173,7 @@ void AFigure::StopFalling() {
 
 	mode->CheckAndDestroyLayers(this);
 
-	if (pos.Z + _BLOCK_SIZE_ <= state->maxHeight) //is there some space for the next figure?
+	if (pos.Z + state->blockSize <= state->maxHeight) //is there some space for the next figure?
 		mode->DropFigure(); 
 }
 

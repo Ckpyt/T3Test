@@ -6,6 +6,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "CubeComponent.h"
+#include "TetriTestStateBase.h"
 #include "TetriTestGameMode.generated.h"
 
 //#define SCENE_SIZE 4
@@ -59,6 +60,7 @@ static ATetriTestGameMode* GetGameMode();
 
 	static void CalcXYZFromPos(const FVector pos, int& x, int& y, int& z);
 	static FVector CalcPosFromXYZ(const int x, const int y, const int z);
+	static ATetriTestStateBase* GetGameState();
 
 	//correcting position in the scene
 	static FVector CorrectPosition(FVector pos, long id);
