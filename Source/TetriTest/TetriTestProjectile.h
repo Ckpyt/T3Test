@@ -15,7 +15,6 @@ class ATetriTestProjectile : public AActor
 	GENERATED_BODY()
 
 	/** Sphere collision component */
-
 	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
 	class USphereComponent* CollisionComp;
 
@@ -25,8 +24,9 @@ class ATetriTestProjectile : public AActor
 
 public:
 
+	/** 0 - push, 1 - rotate, 2 - destroy block, 3 - pull, 4 - rotate clockwise, 5 - destroy figure */
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
-	int mode = 0; //0 - push, 1 - rotate, 2 - destroy block, 3 - pull, 4 - rotate clockwise, 5 - destroy figure
+	int mode = 0; 
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	ACharacter* player;

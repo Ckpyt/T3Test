@@ -35,15 +35,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	int currentMode;
 
-	// Sets default values for this actor's properties
-	UCubeComponent();
-
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+private:
+	int CalcCrossedSide(FVector other);
+	void DestroyFigure();
 
 public:	
-	// Called every frame
-	//virtual void Tick(float DeltaTime) override;
+	// Sets default values for this actor's properties
+	UCubeComponent();
 
 	FORCEINLINE int GetMode() const { return (int)currentMode; };
 
@@ -58,10 +56,5 @@ public:
 	FVector GetLocation();
 	void Destroy();
 
-private:
-	int CalcCrossedSide(FVector other);
 
-	void DestroyFigure();
-	
-	
 };

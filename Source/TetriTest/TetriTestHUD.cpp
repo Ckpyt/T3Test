@@ -49,24 +49,15 @@ void ATetriTestHUD::DrawHUD()
 	DrawItem(PushTex, FVector2D((Canvas->ClipX - 300), (Canvas->ClipY - 80)));
 	
 	//draw gun charges
-	//Canvas->DrawText(myFont.Object, FString("aaaa"), (Center.X), (Center.Y + 40.0f));
 	UObject* obj_ptr = StaticLoadObject(UFont::StaticClass(), NULL,
 		TEXT("/Game/Fonts/Arial_Font"));
 	UFont* font_ptr = Cast<UFont>(obj_ptr);
-	char pushCharges[2];
-	char rotCharges[2];
-	char destCharges[2];
-	char scores[6];
-	_itoa(ATetriTestCharacter::pushCharges, pushCharges, 10);
-	_itoa(ATetriTestCharacter::rotateCharges, rotCharges, 10);
-	_itoa(ATetriTestCharacter::destroyCharges, destCharges, 10);
-	_itoa(ATetriTestCharacter::scores, scores, 10);
 	
-	DrawText(FString(pushCharges), FLinearColor::White, (Canvas->ClipX - 240), (Canvas->ClipY - 30), font_ptr);
-	DrawText(FString(rotCharges), FLinearColor::White, (Canvas->ClipX - 130), (Canvas->ClipY - 30), font_ptr);
-	DrawText(FString(destCharges), FLinearColor::White, (Canvas->ClipX - 40), (Canvas->ClipY - 30), font_ptr);
+	DrawText(FString::FromInt(ATetriTestCharacter::pushCharges), FLinearColor::White, (Canvas->ClipX - 240), (Canvas->ClipY - 30), font_ptr);
+	DrawText(FString::FromInt(ATetriTestCharacter::rotateCharges), FLinearColor::White, (Canvas->ClipX - 130), (Canvas->ClipY - 30), font_ptr);
+	DrawText(FString::FromInt(ATetriTestCharacter::destroyCharges), FLinearColor::White, (Canvas->ClipX - 40), (Canvas->ClipY - 30), font_ptr);
 
 	font_ptr->LegacyFontSize = 20;
 	//draw scores
-	DrawText(FString(FString("Scores:") + scores), FLinearColor::White, (0), (10), font_ptr);
+	DrawText(FString(FString("Scores:") + FString::FromInt(ATetriTestCharacter::scores)), FLinearColor::White, (0), (10), font_ptr);
 }

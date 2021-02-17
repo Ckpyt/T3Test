@@ -35,7 +35,7 @@ public:
 
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 
-static ATetriTestGameMode* GetGameMode();
+	static ATetriTestGameMode* GetGameMode();
 
 	void ClearScene();
 	void DropFigure();
@@ -59,11 +59,14 @@ static ATetriTestGameMode* GetGameMode();
 	static long GetNextId();
 
 	static void CalcXYZFromPos(const FVector pos, int& x, int& y, int& z);
+
 	static FVector CalcPosFromXYZ(const int x, const int y, const int z);
+
 	static ATetriTestStateBase* GetGameState();
 
 	//correcting position in the scene
 	static FVector CorrectPosition(FVector pos, long id);
+
 private:
 	void DestroyLayer(int z);
 

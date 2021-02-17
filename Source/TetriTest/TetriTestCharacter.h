@@ -14,8 +14,6 @@ class UInputComponent;
 UCLASS(config=Game)
 class ATetriTestCharacter : public ACharacter
 {
-
-
 	GENERATED_BODY()
 
 	GunMode currentMode;
@@ -58,6 +56,11 @@ class ATetriTestCharacter : public ACharacter
 	float maxJumpVelocity = 0;
 
 public:
+	static int pushCharges;
+	static int rotateCharges;
+	static int destroyCharges;
+	static int scores;
+
 	ATetriTestCharacter();
 
 protected:
@@ -91,11 +94,6 @@ public:
 	/** Whether to use motion controller location for aiming. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	uint32 bUsingMotionControllers : 1;
-
-	static int pushCharges;
-	static int rotateCharges;
-	static int destroyCharges;
-	static int scores;
 
 	DECLARE_DELEGATE_OneParam(FChooseDelegate, int32);
 	DECLARE_DELEGATE_OneParam(FFireDelegate, int32);

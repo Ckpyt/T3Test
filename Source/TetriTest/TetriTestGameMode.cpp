@@ -48,7 +48,7 @@ ATetriTestGameMode::ATetriTestGameMode()
 
 //stop dropping
 ATetriTestGameMode::~ATetriTestGameMode() { 
-	auto gameState = dynamic_cast<ATetriTestStateBase*>(GameState);
+	auto gameState = Cast<ATetriTestStateBase>(GameState);
 	if (gameState->canFigureDrop)
 		ClearScene();
 
@@ -74,14 +74,14 @@ void ATetriTestGameMode::InitGame(const FString& MapName, const FString& Options
 void ATetriTestGameMode::BeginPlay() {
 	Super::BeginPlay();
 
-	auto gameState = dynamic_cast<ATetriTestStateBase*>(GameState);
-	fullScene = new AActor * **[gameState->sceneSize];
+	auto gameState = Cast<ATetriTestStateBase>(GameState);
+	fullScene = new AActor***[gameState->sceneSize];
 
 	//clear scene
 	for (int x = 0; x < gameState->sceneSize; x++) {
-		fullScene[x] = new AActor * *[gameState->sceneSize];
+		fullScene[x] = new AActor**[gameState->sceneSize];
 		for (int y = 0; y < gameState->sceneSize; y++) {
-			fullScene[x][y] = new AActor * [gameState->sceneHeight];
+			fullScene[x][y] = new AActor* [gameState->sceneHeight];
 			for (int z = 0; z < gameState->sceneHeight; z++)
 				fullScene[x][y][z] = nullptr;
 		}
@@ -91,7 +91,7 @@ void ATetriTestGameMode::BeginPlay() {
 }
 
 void ATetriTestGameMode::ClearScene() {
-	auto gameState = dynamic_cast<ATetriTestStateBase*>(GameState);
+	auto gameState = Cast<ATetriTestStateBase>(GameState);
 
 	for (int x = 0; x < gameState->sceneSize; x++) {
 		for (int y = 0; y < gameState->sceneSize; y++) {
@@ -108,7 +108,7 @@ void ATetriTestGameMode::ClearScene() {
 }
 
 void ATetriTestGameMode::DropFigure() {
-	auto gameState = dynamic_cast<ATetriTestStateBase*>(GameState);
+	auto gameState = Cast<ATetriTestStateBase>(GameState);
 
 	if (gameState->canFigureDrop) {
 		UCubeComponent* owner = nullptr;
@@ -131,9 +131,9 @@ void ATetriTestGameMode::DropFigure() {
 ATetriTestGameMode* ATetriTestGameMode::GetGameMode() { return instance; }
 
 ATetriTestStateBase* ATetriTestGameMode::GetGameState() { 
-	ATetriTestGameMode* mode = GetGameMode();
+	auto mode = GetGameMode();
 	if (mode == nullptr) return nullptr;
-	ATetriTestStateBase* state = dynamic_cast<ATetriTestStateBase*>(mode->GameState);
+	ATetriTestStateBase* state = Cast<ATetriTestStateBase>(mode->GameState);
 	return state;
 }
 
@@ -202,7 +202,7 @@ void ATetriTestGameMode::DestroyLayer(int z) {
 	auto gameState = dynamic_cast<ATetriTestStateBase*>(GameState);
 	for (int x = 0; x < gameState->sceneSize; x++)
 		for (int y = 0; y < gameState->sceneSize; y++)
-			((ACubeActor*)fullScene[x][y][z])->owner->DestroyBlock(((ACubeActor*)fullScene[x][y][z])->CubeComp->id);
+			Cast<ACubeActor>(fullScene[x][y][z])->owner->DestroyBlock(Cast<ACubeActor>(fullScene[x][y][z])->CubeComp->id);
 
 	//move all layers on one down
 	for (int x = 0; x < gameState->sceneSize; x++)
@@ -231,7 +231,7 @@ bool ATetriTestGameMode::CheckMoveBlock(const FVector newPos, AFigure* owner) {
 
 //Is it a free space on a new locations?
 bool ATetriTestGameMode::CheckMoveBlockWithID(const FVector newPos, long id) {
-	auto gameState = dynamic_cast<ATetriTestStateBase*>(GameState);
+	auto gameState = Cast<ATetriTestStateBase>(GameState);
 	FVector playerPos = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 	int x, y, z;
 	CalcXYZFromPos(newPos, x, y, z);
@@ -243,14 +243,11 @@ bool ATetriTestGameMode::CheckMoveBlockWithID(const FVector newPos, long id) {
 		//check address
 		check = check && fullScene[x][y][z] == nullptr;															
 		if (check == false) {
-			AFigure* coordOwner = (dynamic_cast<ACubeActor*>(fullScene[x][y][z]))->owner;
-			check = (coordOwner->GetId() == id);												//
+			AFigure* coordOwner = (Cast<ACubeActor>(fullScene[x][y][z]))->owner;
+			check = (coordOwner->GetId() == id);							
 			
 		}
 	}
-
-	if(check == false)
-		x = 10;
 
 	return check;
 }
@@ -274,9 +271,8 @@ void ATetriTestGameMode::MoveBlockInScene(AActor* block, const FVector oldPos, c
 }
 
 long ATetriTestGameMode::GetNextId() { 
-	auto mode = GetGameMode();
-	if (mode == nullptr) return 0;
+	auto gameState = GetGameState();
+	if (gameState == nullptr) return 0;
 
-	auto gameState = dynamic_cast<ATetriTestStateBase*>(GetGameMode()->GameState);
 	return ++gameState->lastID;
 }

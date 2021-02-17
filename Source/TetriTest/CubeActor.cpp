@@ -16,7 +16,7 @@ ACubeActor::ACubeActor()
 	//set varables, in our case we making box visible in game
 	//BoxComp->bHiddenInGame = false;
 	//set component as root
-	RootComponent = BoxComp; //CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	RootComponent = BoxComp; 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Geometry/Meshes/Cube.Cube'"));
 	UStaticMesh* Asset = MeshAsset.Object;
 	BoxComp->SetStaticMesh(Asset);
@@ -37,48 +37,14 @@ ACubeActor::ACubeActor()
 		BoxComp->SetMaterial(0, material);
 	}
 	
-	//BoxComp->BodyInstance.SetCollisionProfileName("Projectile");
-	//BoxComp->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-	//BoxComp->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Default, 0.f));
 	BoxComp->CanCharacterStepUpOn = ECB_Yes;
 
 	CubeComp = CreateDefaultSubobject<UCubeComponent>(TEXT("Cube"));
 	CubeComp->currentMode = type;
 
-	// Use a ProjectileMovementComponent to govern this projectile's movement
-	/*ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
-	//ProjectileMovement->UpdatedComponent = CubeComp;
-	ProjectileMovement->MaxSpeed = 1000.f;
-	ProjectileMovement->InitialSpeed = 1000;
-	ProjectileMovement->Velocity = FVector(0, 0, 1000);
-
-	ProjectileMovement->bRotationFollowsVelocity = false;
-	ProjectileMovement->bShouldBounce = true;
-	ProjectileMovement->Bounciness = 0;
-	ProjectileMovement->ProjectileGravityScale = 0;*/
 	AddOwnedComponent(CubeComp); 
 
 #define scale 250.f
 	BoxComp->SetRelativeScale3D(FVector(scale, scale, scale));
 
-}
-
-// Called when the game starts or when spawned
-void ACubeActor::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
-// Called every frame
-void ACubeActor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	/*if (owner->IsItFalling())
-	{
-		FVector pos = GetActorLocation();
-		pos.Z -= DeltaTime * 500;
-		SetActorLocation(pos);
-		CubeComp->Tick();
-	}*/
 }

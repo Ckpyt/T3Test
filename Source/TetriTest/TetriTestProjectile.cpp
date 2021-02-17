@@ -38,12 +38,11 @@ void ATetriTestProjectile::Init(int inimode) {
 
 void ATetriTestProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	// Only add impulse and destroy projectile if we hit a physics
+	// Only add impulse and destroy projectile if it hit a physics
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) /*&& OtherComp->IsSimulatingPhysics()*/)
 	{
-		//OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
 
-		UCubeComponent* cube = dynamic_cast<UCubeComponent*>(OtherComp);
+		UCubeComponent* cube = Cast<UCubeComponent>(OtherComp);
 
 		if (cube != nullptr) {
 			cube->OnHit(OtherComp, this, HitComp, NormalImpulse, Hit);

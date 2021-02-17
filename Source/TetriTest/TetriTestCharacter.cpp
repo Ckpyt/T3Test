@@ -106,10 +106,6 @@ ATetriTestCharacter::ATetriTestCharacter()
 
 void ATetriTestCharacter::BeginPlay()
 {
-	// turn on logging in std::cout
-//	LStream Stream;
-//	std::cout.rdbuf(&Stream);
-
 	// Call the base class  
 	Super::BeginPlay();
 
@@ -235,7 +231,6 @@ void ATetriTestCharacter::OnFire(int fireStep)
 	default: charges = &pushCharges; break;
 	}
 
-	//std::cout <<"charges:"<< *charges << " "<< (int)currentMode <<std::endl;
 	if (*charges > 0) 
 		*charges = *charges - 1;
 	else
@@ -264,7 +259,6 @@ void ATetriTestCharacter::OnFire(int fireStep)
 				SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
 
 				//Set Spawn Collision Handling Override
-				
 				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 			}
 			FTransform SpawnTransform(SpawnRotation, SpawnLocation);
