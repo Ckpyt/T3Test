@@ -32,7 +32,7 @@ ATetriTestProjectile::ATetriTestProjectile()
 	InitialLifeSpan = 3.0f;
 }
 
-void ATetriTestProjectile::Init(int inimode) {
+void ATetriTestProjectile::Init(GunMode inimode) {
 	this->mode = inimode;
 }
 

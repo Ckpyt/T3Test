@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include <map>
+#include "Tools.h"
 #include "Figure.generated.h"
 
 /**
@@ -30,10 +31,10 @@ public:
 	void StopFalling();
 
 	void AddBlock(AActor* block, long id);
-	void Push(int side);
-	void Pull(int side);
-	void Rotate(int side, FVector blockPos);
-	void CouterRotate(int side, FVector blockPos);
+	void Push(blockSides side);
+	void Pull(blockSides side);
+	void Rotate(blockSides side, FVector blockPos);
+	void CouterRotate(blockSides side, FVector blockPos);
 
 	void DestroyFigure();
 	void DestroyBlock(long id, bool destroying = false);
@@ -48,5 +49,5 @@ private:
 	void RotateX(float mul, FVector& pos);
 	void RotateY(float mul, FVector& pos);
 	void RotateZ(float mul, FVector& pos);
-	void MoveFigure(int side, FVector& move);
+	void MoveFigure(blockSides side, FVector& move);
 };

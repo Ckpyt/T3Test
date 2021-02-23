@@ -48,11 +48,13 @@ void AFigure::DestroyBlock(long id, bool destroing) {
 	ATetriTestGameMode::GetGameMode()->ClearBlockLocation(block);
 	blocks.erase(id);
 
-	if (block->IsPendingKillPending() == false) 	
+	if (block->IsPendingKillPending() == false)
+	{
 		block->Destroy();
-	
-	if (destroing == false && blocks.size() == 0 )
-		DestroyFigure();
+
+		if (destroing == false && blocks.size() == 0)
+			DestroyFigure();
+	}
 }
 
 void AFigure::DestroyFigure() {
@@ -70,8 +72,8 @@ void AFigure::DestroyFigure() {
 	Destroy();
 }
 
-void AFigure::Pull(int side) {
-	Push(-side);
+void AFigure::Pull(blockSides side) {
+	Push(OtherSide(side));
 }
 
 void AFigure::Tick(float deltaTime) {
@@ -81,11 +83,11 @@ void AFigure::Tick(float deltaTime) {
 		ATetriTestStateBase* state = dynamic_cast<ATetriTestStateBase*>(ATetriTestGameMode::GetGameMode()->GameState);
 		float deltaZ = deltaTime * state->fallingSpeed;
 		FVector pos(0, 0, deltaZ);
-		MoveFigure(3, pos);
+		MoveFigure(blockSides::plusZ, pos);
 	}
 }
 
-void AFigure::MoveFigure(int side, FVector& pos) {
+void AFigure::MoveFigure(blockSides side, FVector& pos) {
 
 	std::vector<FVector> figurePos;
 	figurePos.clear();
@@ -104,23 +106,23 @@ void AFigure::MoveFigure(int side, FVector& pos) {
 			block->CubeComp->UpdateLocalPosition();
 		}
 	else {
-		if (side == 3 && isItFalling) {
+		if (side == blockSides::plusZ && isItFalling) {
 			StopFalling();
 		}
 	}
 }
 
-void AFigure::Push(int side) {
+void AFigure::Push(blockSides side) {
 	auto gameState = ATetriTestGameMode::GetGameState();
 	FVector pos(0.f, 0.f, 0.f);
 
 	switch (side) {
-	case 1:
-	case -1: pos.X -= side * gameState->blockSize; break;
-	case 2: pos.Y -= gameState->blockSize; break;
-	case -2: pos.Y += gameState->blockSize; break;
-	case 3: pos.Z -= gameState->blockSize; break;
-	case -3: pos.Z += gameState->blockSize; break;
+	case blockSides::plusX: pos.X -= gameState->blockSize; break;
+	case blockSides::minusX: pos.X += gameState->blockSize; break;
+	case blockSides::plusY: pos.Y -= gameState->blockSize; break;
+	case blockSides::minusY: pos.Y += gameState->blockSize; break;
+	case blockSides::plusZ: pos.Z -= gameState->blockSize; break;
+	case blockSides::minusZ: pos.Z += gameState->blockSize; break;
 	default: break;
 	}
 
@@ -201,38 +203,34 @@ void AFigure::RotateZ(float mul, FVector& pos) {
 	pos = tmp;
 }
 
-void AFigure::Rotate(int side, FVector pos) {
+void AFigure::Rotate(blockSides side, FVector pos) {
 
 	//calc the rotation axis coordinates
 	std::vector<FVector> figurePos;
 	figurePos.clear();
 	figurePos.reserve(blocks.size());
 
-	//for (auto block : blocks)
-	//	pos += block.second->GetActorLocation();
-	//pos /= blocks.size();
-
 
 	for (auto block : blocks) {
 		//the position, depended on the middle of the figure
 		FVector blockPos = block.second->GetActorLocation() - pos; 
 		switch (side) {
-		case 1:   //x
+		case blockSides::plusX:
 			RotateX(-1, blockPos);  
 			break;
-		case -1:  //-x
+		case blockSides::minusX:  
 			RotateX(1, blockPos);
 			break;
-		case 2:   //y
+		case blockSides::plusY:   
 			RotateY(-1, blockPos);
 			break;
-		case -2:  //-y
+		case blockSides::minusY:
 			RotateY(1, blockPos);
 			break;
-		case 3:   //z
+		case blockSides::plusZ:   
 			RotateZ(-1, blockPos);
 			break;
-		case -3:  //-z
+		case blockSides::minusZ:
 			RotateZ(1, blockPos);
 			break;
 		}
@@ -252,8 +250,8 @@ void AFigure::Rotate(int side, FVector pos) {
 	}
 }
 
-void AFigure::CouterRotate(int side, FVector blockPos) {
-	Rotate(-side, blockPos);
+void AFigure::CouterRotate(blockSides side, FVector blockPos) {
+	Rotate( OtherSide(side), blockPos);
 }
 
 long AFigure::GetId(){ return figureId; }

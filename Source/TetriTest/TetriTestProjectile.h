@@ -23,17 +23,15 @@ class ATetriTestProjectile : public AActor
 	class UProjectileMovementComponent* ProjectileMovement;
 
 public:
-
-	/** 0 - push, 1 - rotate, 2 - destroy block, 3 - pull, 4 - rotate clockwise, 5 - destroy figure */
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
-	int mode = 0; 
+	GunMode mode; 
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	ACharacter* player;
 
 	ATetriTestProjectile();
 	/** used for change a material  */
-	void Init(int mode);
+	void Init(GunMode mode);
 
 	/** called when projectile hits something */
 	UFUNCTION()

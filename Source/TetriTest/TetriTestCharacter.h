@@ -95,8 +95,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	uint32 bUsingMotionControllers : 1;
 
-	DECLARE_DELEGATE_OneParam(FChooseDelegate, int32);
-	DECLARE_DELEGATE_OneParam(FFireDelegate, int32);
+	DECLARE_DELEGATE_OneParam(FChooseDelegate, GunMode);
+	DECLARE_DELEGATE_OneParam(FFireDelegate, bool);
 
 	static void AddPushCharges();
 	static void AddRotateCharges();
@@ -105,7 +105,7 @@ public:
 protected:
 	
 	/** Fires a projectile. */
-	void OnFire(int modeStep = 0);
+	void OnFire(bool alternative = false);
 
 	/** Resets HMD orientation and position in VR. */
 	void OnResetVR();
@@ -120,7 +120,7 @@ protected:
 	void Jump();
 
 	UFUNCTION(BlueprintCallable, Category = SomeCategory)
-	void Choose(int gunMode);
+	void Choose(GunMode gunMode);
 
 	/** Handles stop jumping */
 	void StopJumping();
@@ -152,9 +152,6 @@ protected:
 	void TouchUpdate(const ETouchIndex::Type FingerIndex, const FVector Location);
 	TouchData	TouchItem;
 	
-	UFUNCTION(BlueprintCallable, Category = SomeCategory)
-	int ModeToInt();
-
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;

@@ -33,10 +33,10 @@ public:
 	long id;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	int currentMode;
+	GunMode currentMode;
 
 private:
-	int CalcCrossedSide(FVector other);
+	blockSides CalcCrossedSide(FVector other);
 	void DestroyFigure();
 
 public:	

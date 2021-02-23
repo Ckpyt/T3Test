@@ -26,5 +26,7 @@ enum class blockSides : uint8 {
 };
 
 blockSides OtherSide(blockSides side);
+GunMode AlternativeMode(GunMode mode);
+GunMode IntToMode(int mode);
 
 

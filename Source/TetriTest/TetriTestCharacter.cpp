@@ -133,17 +133,17 @@ void ATetriTestCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	// set up gameplay key bindings
 	check(PlayerInputComponent);
 
-	PlayerInputComponent->BindAction<FChooseDelegate>("ChoosePush", IE_Pressed, this, &ATetriTestCharacter::Choose, 0);
-	PlayerInputComponent->BindAction<FChooseDelegate>("ChooseRotate", IE_Pressed, this, &ATetriTestCharacter::Choose, 1);
-	PlayerInputComponent->BindAction<FChooseDelegate>("ChooseDestroy", IE_Pressed, this, &ATetriTestCharacter::Choose, 2);
+	PlayerInputComponent->BindAction<FChooseDelegate>("ChoosePush", IE_Pressed, this, &ATetriTestCharacter::Choose, GunMode::push);
+	PlayerInputComponent->BindAction<FChooseDelegate>("ChooseRotate", IE_Pressed, this, &ATetriTestCharacter::Choose, GunMode::rotate);
+	PlayerInputComponent->BindAction<FChooseDelegate>("ChooseDestroy", IE_Pressed, this, &ATetriTestCharacter::Choose, GunMode::destroy);
 
 	// Bind jump events
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ATetriTestCharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ATetriTestCharacter::StopJumping);
 
 	// Bind fire event
-	PlayerInputComponent->BindAction<FFireDelegate>("Fire", IE_Pressed, this, &ATetriTestCharacter::OnFire, 0);
-	PlayerInputComponent->BindAction<FFireDelegate>("Fire2", IE_Pressed, this, &ATetriTestCharacter::OnFire, 3);
+	PlayerInputComponent->BindAction<FFireDelegate>("Fire", IE_Pressed, this, &ATetriTestCharacter::OnFire, false);
+	PlayerInputComponent->BindAction<FFireDelegate>("Fire2", IE_Pressed, this, &ATetriTestCharacter::OnFire, true);
 
 	// Enable touchscreen input
 	EnableTouchscreenMovement(PlayerInputComponent);
@@ -194,8 +194,8 @@ void ATetriTestCharacter::JetPack(float value) {
 	
 }
 
-void ATetriTestCharacter::Choose(int gunMode) {
-	currentMode = (GunMode)gunMode;
+void ATetriTestCharacter::Choose(GunMode gunMode) {
+	currentMode = gunMode;
 }
 
 void ATetriTestCharacter::Jump() {
@@ -212,11 +212,7 @@ void ATetriTestCharacter::StopJumping() {
 	maxJumpVelocity = 0;
 }
 
-int ATetriTestCharacter::ModeToInt() { return (int)currentMode; }
-
-
-
-void ATetriTestCharacter::OnFire(int fireStep)
+void ATetriTestCharacter::OnFire(bool alternative)
 {
 	// turn on logging in std::cout
 //	LStream Stream;
@@ -225,10 +221,10 @@ void ATetriTestCharacter::OnFire(int fireStep)
 	int* charges = 0;
 
 	switch (currentMode) {
-	case GunMode::destroy: charges = &destroyCharges; break;
-	case GunMode::push: charges = &pushCharges; break;
-	case GunMode::rotate: charges = &rotateCharges; break;
-	default: charges = &pushCharges; break;
+	case GunMode::destroy:	charges = &destroyCharges; break;
+	case GunMode::push:		charges = &pushCharges; break;
+	case GunMode::rotate:	charges = &rotateCharges; break;
+	default:				charges = &pushCharges; break;
 	}
 
 	if (*charges > 0) 
@@ -266,14 +262,11 @@ void ATetriTestCharacter::OnFire(int fireStep)
 			auto MyDeferredActor = Cast<ATetriTestProjectile>(UGameplayStatics::BeginDeferredActorSpawnFromClass(this, ProjectileClass, SpawnTransform));
 			if (MyDeferredActor != nullptr)
 			{
-				MyDeferredActor->Init(fireStep + (int)currentMode);
+				GunMode mode = (alternative ? AlternativeMode(currentMode) : currentMode);
+				MyDeferredActor->Init(mode);
 
 				UGameplayStatics::FinishSpawningActor(MyDeferredActor, SpawnTransform);
 			}
-
-
-			//World->SpawnActor<ATetriTestProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-			
 		}
 	}
 
@@ -369,7 +362,6 @@ void ATetriTestCharacter::MoveForward(float Value)
 {
 	if (Value != 0.0f)
 	{
-		// add movement in that direction
 		AddMovementInput(GetActorForwardVector(), Value);
 	}
 }
@@ -378,7 +370,6 @@ void ATetriTestCharacter::MoveRight(float Value)
 {
 	if (Value != 0.0f)
 	{
-		// add movement in that direction
 		AddMovementInput(GetActorRightVector(), Value);
 	}
 }

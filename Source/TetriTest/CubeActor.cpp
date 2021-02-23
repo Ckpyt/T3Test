@@ -13,7 +13,7 @@ ACubeActor::ACubeActor()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	BoxComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Box")); //init
-	//set varables, in our case we making box visible in game
+	//set variables, in our case we making box visible in game
 	//BoxComp->bHiddenInGame = false;
 	//set component as root
 	RootComponent = BoxComp; 
@@ -21,16 +21,23 @@ ACubeActor::ACubeActor()
 	UStaticMesh* Asset = MeshAsset.Object;
 	BoxComp->SetStaticMesh(Asset);
 	int type = rand() % 3;
+	
+	GunMode mode = IntToMode(type);
+
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface>MeshMaterialMove(TEXT("Material'/Game/FirstPerson/Meshes/CubeMaterialMove.CubeMaterialMove'"));
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface>MeshMaterialRotate(TEXT("Material'/Game/FirstPerson/Meshes/CubeMaterialRotate.CubeMaterialRotate'"));
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface>MeshMaterialDestroy(TEXT("Material'/Game/FirstPerson/Meshes/CubeMaterialDestroy.CubeMaterialDestroy'"));
 
 	UMaterialInterface* material = nullptr;
 
-	switch (type) {
-	case 0: if (MeshMaterialMove.Succeeded()) { material = MeshMaterialMove.Object; } break;
-	case 1: if (MeshMaterialRotate.Succeeded()) { material = MeshMaterialRotate.Object; } break;
-	case 2: if (MeshMaterialDestroy.Succeeded()) { material = MeshMaterialDestroy.Object; } break;
+	switch (mode) {
+	case GunMode::default:
+	case GunMode::pull:
+	case GunMode::push: if (MeshMaterialMove.Succeeded()) { material = MeshMaterialMove.Object; } break;
+	case GunMode::rotateCounter:
+	case GunMode::rotate: if (MeshMaterialRotate.Succeeded()) { material = MeshMaterialRotate.Object; } break;
+	case GunMode::destroyFigure:
+	case GunMode::destroy: if (MeshMaterialDestroy.Succeeded()) { material = MeshMaterialDestroy.Object; } break;
 	}
 
 	if (material != nullptr) {
@@ -40,7 +47,7 @@ ACubeActor::ACubeActor()
 	BoxComp->CanCharacterStepUpOn = ECB_Yes;
 
 	CubeComp = CreateDefaultSubobject<UCubeComponent>(TEXT("Cube"));
-	CubeComp->currentMode = type;
+	CubeComp->currentMode = mode;
 
 	AddOwnedComponent(CubeComp); 
 
