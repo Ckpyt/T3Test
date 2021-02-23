@@ -22,7 +22,7 @@ class TETRITEST_API UCubeComponent : public UActorComponent
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Projectile, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* CollisionComp;
 
-	/** Projectile movement component */
+	// Projectile movement component 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	class UProjectileMovementComponent* ProjectileMovement;
 
@@ -34,10 +34,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	GunMode currentMode;
-
-private:
-	blockSides CalcCrossedSide(FVector other);
-	void DestroyFigure();
 
 public:	
 	// Sets default values for this actor's properties
@@ -56,5 +52,7 @@ public:
 	FVector GetLocation();
 	void Destroy();
 
-
+private:
+	blockSides CalcCrossedSide(FVector other);
+	void DestroyFigure();
 };

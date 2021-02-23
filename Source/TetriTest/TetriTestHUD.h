@@ -21,13 +21,13 @@ public:
 	virtual void DrawHUD() override;
 
 private:
-	/** Crosshair asset pointer */
+	// Crosshair asset pointer 
 	class UTexture2D* CrosshairTex;
-	/** Push asset pointer */
+	// Push asset pointer 
 	class UTexture2D* PushTex;
-	/** Rotate asset pointer */
+	// Rotate asset pointer 
 	class UTexture2D* RotateTex;
-	/** Bullet asset pointer */
+	// Bullet asset pointer 
 	class UTexture2D* BulletTex;
 
 	void DrawItem(const UTexture2D* itm, const FVector2D pos);

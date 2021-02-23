@@ -24,11 +24,9 @@ class ATetriTestGameMode : public AGameModeBase
 	//should be only one component in the game
 	static ATetriTestGameMode* instance;
 
-	void BeginPlay() override;
 	AFigure* fallingFigure = nullptr;
 
 public:
-
 
 	ATetriTestGameMode();
 	~ATetriTestGameMode();
@@ -53,15 +51,11 @@ public:
 
 	//delete link into the block from scene
 	void ClearBlockLocation(AActor* block);
-
 	void ClearFallingFigure();
 
 	static long GetNextId();
-
 	static void CalcXYZFromPos(const FVector pos, int& x, int& y, int& z);
-
 	static FVector CalcPosFromXYZ(const int x, const int y, const int z);
-
 	static ATetriTestStateBase* GetGameState();
 
 	//correcting position in the scene
@@ -72,6 +66,7 @@ private:
 
 	//check a new location of the block: is it inside in the scene?
 	bool CheckMoveBlockWithID(const FVector newPos, long id);
+	void BeginPlay() override;
 };
 
 
