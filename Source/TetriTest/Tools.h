@@ -4,7 +4,7 @@
 #include <vector>
 
 UENUM(BlueprintType)
-enum class GunMode : uint8 {
+	enum class EGunMode : uint8 {
 	default = 0		UMETA(DisplayName = "default"),
 	push			UMETA(DisplayName = "push"),
 	rotate			UMETA(DisplayName = "rotate"),
@@ -15,7 +15,7 @@ enum class GunMode : uint8 {
 };
 
 UENUM(BlueprintType)
-enum class blockSides : uint8 {
+	enum class EBlockSides : uint8 {
 	default = 0		UMETA(DisplayName = "default"),
 	plusX = 1		UMETA(DisplayName = "plusX"),
 	minusX = 255	UMETA(DisplayName = "minusX"),
@@ -25,8 +25,7 @@ enum class blockSides : uint8 {
 	minusZ = 253	UMETA(DisplayName = "minusZ")
 };
 
-blockSides OtherSide(blockSides side);
-GunMode AlternativeMode(GunMode mode);
-GunMode IntToMode(int mode);
-
+EBlockSides OtherSide(EBlockSides side);
+EGunMode AlternativeMode(EGunMode mode);
+EGunMode IntToMode(int mode);
 

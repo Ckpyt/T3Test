@@ -17,7 +17,7 @@ class TETRITEST_API UCubeComponent : public UActorComponent
 	GENERATED_BODY()
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-		UStaticMeshComponent* cube;
+	UStaticMeshComponent* cube;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Projectile, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* CollisionComp;
@@ -33,7 +33,7 @@ public:
 	long id;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	GunMode currentMode;
+	EGunMode currentMode;
 
 public:	
 	// Sets default values for this actor's properties
@@ -41,7 +41,7 @@ public:
 
 	FORCEINLINE int GetMode() const { return (int)currentMode; };
 
-	void Init(GunMode curMode);
+	void Init(EGunMode curMode);
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
@@ -53,6 +53,6 @@ public:
 	void Destroy();
 
 private:
-	blockSides CalcCrossedSide(FVector other);
+	EBlockSides CalcCrossedSide(FVector other);
 	void DestroyFigure();
 };

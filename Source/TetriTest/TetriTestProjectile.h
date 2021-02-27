@@ -24,14 +24,14 @@ class ATetriTestProjectile : public AActor
 
 public:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
-	GunMode mode; 
+	EGunMode mode;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	ACharacter* player;
 
 	ATetriTestProjectile();
 	// used for change a material  
-	void Init(GunMode mode);
+	void Init(EGunMode mode);
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);

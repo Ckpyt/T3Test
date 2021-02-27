@@ -2,28 +2,29 @@
 #include "CoreMinimal.h"
 
 
-blockSides OtherSide(blockSides side) {
+EBlockSides OtherSide(EBlockSides side) {
 	char intSide = static_cast<char>(side);
-	return static_cast<blockSides>(-intSide);
+	return static_cast<EBlockSides>(-intSide);
 }
 
-GunMode AlternativeMode(GunMode mode) {
+EGunMode AlternativeMode(EGunMode mode) {
 	switch (mode) {
-	case GunMode::destroy: return GunMode::destroyFigure;
-	case GunMode::destroyFigure: return GunMode::destroy;
-	case GunMode::pull: return GunMode::push;
-	case GunMode::push: return GunMode::pull;
-	case GunMode::rotate: return GunMode::rotateCounter;
-	case GunMode::rotateCounter: return GunMode::rotate;
+	case EGunMode::destroy: return EGunMode::destroyFigure;
+	case EGunMode::destroyFigure: return EGunMode::destroy;
+	case EGunMode::pull: return EGunMode::push;
+	case EGunMode::push: return EGunMode::pull;
+	case EGunMode::rotate: return EGunMode::rotateCounter;
+	case EGunMode::rotateCounter: return EGunMode::rotate;
 	}
-	return GunMode::pull;
+	return EGunMode::pull;
 }
 
-GunMode IntToMode(int mode) {
-	switch (mode){
-	case 0: return GunMode::push;
-	case 1: return GunMode::rotate;
-	case 2: return GunMode::destroy;
+EGunMode IntToMode(int mode) {
+	switch (mode) {
+	case 0: return EGunMode::push;
+	case 1: return EGunMode::rotate;
+	case 2: return EGunMode::destroy;
 	}
-	return GunMode::push;
+	return EGunMode::push;
 }
+

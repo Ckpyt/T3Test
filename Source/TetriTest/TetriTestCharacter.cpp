@@ -133,9 +133,9 @@ void ATetriTestCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	// set up gameplay key bindings
 	check(PlayerInputComponent);
 
-	PlayerInputComponent->BindAction<FChooseDelegate>("ChoosePush", IE_Pressed, this, &ATetriTestCharacter::Choose, GunMode::push);
-	PlayerInputComponent->BindAction<FChooseDelegate>("ChooseRotate", IE_Pressed, this, &ATetriTestCharacter::Choose, GunMode::rotate);
-	PlayerInputComponent->BindAction<FChooseDelegate>("ChooseDestroy", IE_Pressed, this, &ATetriTestCharacter::Choose, GunMode::destroy);
+	PlayerInputComponent->BindAction<FChooseDelegate>("ChoosePush", IE_Pressed, this, &ATetriTestCharacter::Choose, EGunMode::push);
+	PlayerInputComponent->BindAction<FChooseDelegate>("ChooseRotate", IE_Pressed, this, &ATetriTestCharacter::Choose, EGunMode::rotate);
+	PlayerInputComponent->BindAction<FChooseDelegate>("ChooseDestroy", IE_Pressed, this, &ATetriTestCharacter::Choose, EGunMode::destroy);
 
 	// Bind jump events
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ATetriTestCharacter::Jump);
@@ -194,7 +194,7 @@ void ATetriTestCharacter::JetPack(float value) {
 	
 }
 
-void ATetriTestCharacter::Choose(GunMode gunMode) {
+void ATetriTestCharacter::Choose(EGunMode gunMode) {
 	currentMode = gunMode;
 }
 
@@ -221,9 +221,9 @@ void ATetriTestCharacter::OnFire(bool alternative)
 	int* charges = 0;
 
 	switch (currentMode) {
-	case GunMode::destroy:	charges = &destroyCharges; break;
-	case GunMode::push:		charges = &pushCharges; break;
-	case GunMode::rotate:	charges = &rotateCharges; break;
+	case EGunMode::destroy:	charges = &destroyCharges; break;
+	case EGunMode::push:		charges = &pushCharges; break;
+	case EGunMode::rotate:	charges = &rotateCharges; break;
 	default:				charges = &pushCharges; break;
 	}
 
@@ -262,7 +262,7 @@ void ATetriTestCharacter::OnFire(bool alternative)
 			auto MyDeferredActor = Cast<ATetriTestProjectile>(UGameplayStatics::BeginDeferredActorSpawnFromClass(this, ProjectileClass, SpawnTransform));
 			if (MyDeferredActor != nullptr)
 			{
-				GunMode mode = (alternative ? AlternativeMode(currentMode) : currentMode);
+				EGunMode mode = (alternative ? AlternativeMode(currentMode) : currentMode);
 				MyDeferredActor->Init(mode);
 
 				UGameplayStatics::FinishSpawningActor(MyDeferredActor, SpawnTransform);

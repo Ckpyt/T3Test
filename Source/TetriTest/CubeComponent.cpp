@@ -33,7 +33,7 @@ UCubeComponent::UCubeComponent()
 	}
 }
 
-blockSides UCubeComponent::CalcCrossedSide(FVector other) {
+EBlockSides UCubeComponent::CalcCrossedSide(FVector other) {
 	FVector pos = cube->GetComponentLocation();
 	
 	//UE_LOG(LogTemp, Warning, TEXT("Other vector: x:%f, y:%f, z:%f"), other.X, other.Y, other.Z);
@@ -46,16 +46,16 @@ blockSides UCubeComponent::CalcCrossedSide(FVector other) {
 	//UE_LOG(LogTemp, Warning, TEXT("impulse vector: x:%f, y:%f"), X, Y);
 
 	if (tmpX > 520.0f) {
-		return impulse.X > 0 ? blockSides::plusX : blockSides::minusX;
+		return impulse.X > 0 ? EBlockSides::plusX : EBlockSides::minusX;
 	}
 	else if (tmpY > 520.0f) {
-		return impulse.Y > 0 ? blockSides::plusY : blockSides::minusY;
+		return impulse.Y > 0 ? EBlockSides::plusY : EBlockSides::minusY;
 	}
 	else {
-		return impulse.Z > 0 ? blockSides::plusZ : blockSides::minusZ;
+		return impulse.Z > 0 ? EBlockSides::plusZ : EBlockSides::minusZ;
 	}
 
-	return blockSides::default;
+	return EBlockSides::default;
 }
 
 void UCubeComponent::UpdateLocalPosition() {
@@ -72,24 +72,24 @@ void UCubeComponent::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 
 		ATetriTestProjectile* bullet = Cast<ATetriTestProjectile>(OtherActor);
 		if (bullet != nullptr) {
-			GunMode mode = bullet->mode;
-			blockSides side = CalcCrossedSide(OtherActor->GetActorLocation());
+			EGunMode mode = bullet->mode;
+			EBlockSides side = CalcCrossedSide(OtherActor->GetActorLocation());
 
 			switch (mode) {
-			case GunMode::push: figure->Push(side); break;
-			case GunMode::pull: figure->Pull(side); break;
+			case EGunMode::push: figure->Push(side); break;
+			case EGunMode::pull: figure->Pull(side); break;
 
-			case GunMode::rotate: figure->Rotate(side, this->GetOwner()->GetActorLocation()); break;
-			case GunMode::rotateCounter: figure->CouterRotate(side, this->GetOwner()->GetActorLocation()); break;
+			case EGunMode::rotate: figure->Rotate(side, this->GetOwner()->GetActorLocation()); break;
+			case EGunMode::rotateCounter: figure->CouterRotate(side, this->GetOwner()->GetActorLocation()); break;
 
-			case GunMode::destroy: Destroy(); break;
-			case GunMode::destroyFigure: DestroyFigure(); break;
+			case EGunMode::destroy: Destroy(); break;
+			case EGunMode::destroyFigure: DestroyFigure(); break;
 			}
 		}
 	}
 }
 
-void UCubeComponent::Init(GunMode curMode) {currentMode = curMode;}
+void UCubeComponent::Init(EGunMode curMode) {currentMode = curMode;}
 
 void UCubeComponent::DestroyFigure() {
 	figure->DestroyFigure();
@@ -98,10 +98,10 @@ void UCubeComponent::DestroyFigure() {
 void UCubeComponent::Destroy() {
 
 	switch (currentMode) {
-	case GunMode::default:
-	case GunMode::push: ATetriTestCharacter::AddPushCharges(); break;
-	case GunMode::rotate: ATetriTestCharacter::AddRotateCharges(); break;
-	case GunMode::destroy: ATetriTestCharacter::AddDestroyCharges(); break;
+	case EGunMode::default:
+	case EGunMode::push: ATetriTestCharacter::AddPushCharges(); break;
+	case EGunMode::rotate: ATetriTestCharacter::AddRotateCharges(); break;
+	case EGunMode::destroy: ATetriTestCharacter::AddDestroyCharges(); break;
 	}
 	figure->DestroyBlock(id);
 }

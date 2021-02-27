@@ -72,7 +72,7 @@ void AFigure::DestroyFigure() {
 	Destroy();
 }
 
-void AFigure::Pull(blockSides side) {
+void AFigure::Pull(EBlockSides side) {
 	Push(OtherSide(side));
 }
 
@@ -83,11 +83,11 @@ void AFigure::Tick(float deltaTime) {
 		ATetriTestStateBase* state = dynamic_cast<ATetriTestStateBase*>(ATetriTestGameMode::GetGameMode()->GameState);
 		float deltaZ = deltaTime * state->fallingSpeed;
 		FVector pos(0, 0, deltaZ);
-		MoveFigure(blockSides::plusZ, pos);
+		MoveFigure(EBlockSides::plusZ, pos);
 	}
 }
 
-void AFigure::MoveFigure(blockSides side, FVector& pos) {
+void AFigure::MoveFigure(EBlockSides side, FVector& pos) {
 
 	std::vector<FVector> figurePos;
 	figurePos.clear();
@@ -106,23 +106,23 @@ void AFigure::MoveFigure(blockSides side, FVector& pos) {
 			block->CubeComp->UpdateLocalPosition();
 		}
 	else {
-		if (side == blockSides::plusZ && isItFalling) {
+		if (side == EBlockSides::plusZ && isItFalling) {
 			StopFalling();
 		}
 	}
 }
 
-void AFigure::Push(blockSides side) {
+void AFigure::Push(EBlockSides side) {
 	auto gameState = ATetriTestGameMode::GetGameState();
 	FVector pos(0.f, 0.f, 0.f);
 
 	switch (side) {
-	case blockSides::plusX: pos.X -= gameState->blockSize; break;
-	case blockSides::minusX: pos.X += gameState->blockSize; break;
-	case blockSides::plusY: pos.Y -= gameState->blockSize; break;
-	case blockSides::minusY: pos.Y += gameState->blockSize; break;
-	case blockSides::plusZ: pos.Z -= gameState->blockSize; break;
-	case blockSides::minusZ: pos.Z += gameState->blockSize; break;
+	case EBlockSides::plusX: pos.X -= gameState->blockSize; break;
+	case EBlockSides::minusX: pos.X += gameState->blockSize; break;
+	case EBlockSides::plusY: pos.Y -= gameState->blockSize; break;
+	case EBlockSides::minusY: pos.Y += gameState->blockSize; break;
+	case EBlockSides::plusZ: pos.Z -= gameState->blockSize; break;
+	case EBlockSides::minusZ: pos.Z += gameState->blockSize; break;
 	default: break;
 	}
 
@@ -203,7 +203,7 @@ void AFigure::RotateZ(float mul, FVector& pos) {
 	pos = tmp;
 }
 
-void AFigure::Rotate(blockSides side, FVector pos) {
+void AFigure::Rotate(EBlockSides side, FVector pos) {
 
 	//calc the rotation axis coordinates
 	std::vector<FVector> figurePos;
@@ -215,22 +215,22 @@ void AFigure::Rotate(blockSides side, FVector pos) {
 		//the position, depended on the middle of the figure
 		FVector blockPos = block.second->GetActorLocation() - pos; 
 		switch (side) {
-		case blockSides::plusX:
+		case EBlockSides::plusX:
 			RotateX(-1, blockPos);  
 			break;
-		case blockSides::minusX:  
+		case EBlockSides::minusX:  
 			RotateX(1, blockPos);
 			break;
-		case blockSides::plusY:   
+		case EBlockSides::plusY:   
 			RotateY(-1, blockPos);
 			break;
-		case blockSides::minusY:
+		case EBlockSides::minusY:
 			RotateY(1, blockPos);
 			break;
-		case blockSides::plusZ:   
+		case EBlockSides::plusZ:   
 			RotateZ(-1, blockPos);
 			break;
-		case blockSides::minusZ:
+		case EBlockSides::minusZ:
 			RotateZ(1, blockPos);
 			break;
 		}
@@ -250,7 +250,7 @@ void AFigure::Rotate(blockSides side, FVector pos) {
 	}
 }
 
-void AFigure::CouterRotate(blockSides side, FVector blockPos) {
+void AFigure::CouterRotate(EBlockSides side, FVector blockPos) {
 	Rotate( OtherSide(side), blockPos);
 }
 

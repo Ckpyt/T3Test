@@ -31,10 +31,10 @@ public:
 	void StopFalling();
 
 	void AddBlock(AActor* block, long id);
-	void Push(blockSides side);
-	void Pull(blockSides side);
-	void Rotate(blockSides side, FVector blockPos);
-	void CouterRotate(blockSides side, FVector blockPos);
+	void Push(EBlockSides side);
+	void Pull(EBlockSides side);
+	void Rotate(EBlockSides side, FVector blockPos);
+	void CouterRotate(EBlockSides side, FVector blockPos);
 
 	void DestroyFigure();
 	void DestroyBlock(long id, bool destroying = false);
@@ -49,5 +49,5 @@ private:
 	void RotateX(float mul, FVector& pos);
 	void RotateY(float mul, FVector& pos);
 	void RotateZ(float mul, FVector& pos);
-	void MoveFigure(blockSides side, FVector& move);
+	void MoveFigure(EBlockSides side, FVector& move);
 };

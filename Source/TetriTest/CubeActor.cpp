@@ -22,7 +22,7 @@ ACubeActor::ACubeActor()
 	BoxComp->SetStaticMesh(Asset);
 	int type = rand() % 3;
 	
-	GunMode mode = IntToMode(type);
+	EGunMode mode = IntToMode(type);
 
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface>MeshMaterialMove(TEXT("Material'/Game/FirstPerson/Meshes/CubeMaterialMove.CubeMaterialMove'"));
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface>MeshMaterialRotate(TEXT("Material'/Game/FirstPerson/Meshes/CubeMaterialRotate.CubeMaterialRotate'"));
@@ -31,13 +31,13 @@ ACubeActor::ACubeActor()
 	UMaterialInterface* material = nullptr;
 
 	switch (mode) {
-	case GunMode::default:
-	case GunMode::pull:
-	case GunMode::push: if (MeshMaterialMove.Succeeded()) { material = MeshMaterialMove.Object; } break;
-	case GunMode::rotateCounter:
-	case GunMode::rotate: if (MeshMaterialRotate.Succeeded()) { material = MeshMaterialRotate.Object; } break;
-	case GunMode::destroyFigure:
-	case GunMode::destroy: if (MeshMaterialDestroy.Succeeded()) { material = MeshMaterialDestroy.Object; } break;
+	case EGunMode::default:
+	case EGunMode::pull:
+	case EGunMode::push: if (MeshMaterialMove.Succeeded()) { material = MeshMaterialMove.Object; } break;
+	case EGunMode::rotateCounter:
+	case EGunMode::rotate: if (MeshMaterialRotate.Succeeded()) { material = MeshMaterialRotate.Object; } break;
+	case EGunMode::destroyFigure:
+	case EGunMode::destroy: if (MeshMaterialDestroy.Succeeded()) { material = MeshMaterialDestroy.Object; } break;
 	}
 
 	if (material != nullptr) {

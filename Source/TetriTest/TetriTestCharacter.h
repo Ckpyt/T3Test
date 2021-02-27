@@ -16,7 +16,7 @@ class ATetriTestCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	GunMode currentMode;
+	EGunMode currentMode;
 
 	// Pawn mesh: 1st person view (arms; seen only by self) 
 	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
@@ -89,7 +89,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	uint32 bUsingMotionControllers : 1;
 
-	DECLARE_DELEGATE_OneParam(FChooseDelegate, GunMode);
+	DECLARE_DELEGATE_OneParam(FChooseDelegate, EGunMode);
 	DECLARE_DELEGATE_OneParam(FFireDelegate, bool);
 
 	ATetriTestCharacter();
@@ -122,7 +122,7 @@ protected:
 	void Jump();
 
 	UFUNCTION(BlueprintCallable, Category = SomeCategory)
-	void Choose(GunMode gunMode);
+	void Choose(EGunMode gunMode);
 
 	// Handles stop jumping 
 	void StopJumping();
